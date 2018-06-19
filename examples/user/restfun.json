@@ -1,5 +1,7 @@
 {
   "language": "php",
+  "docs": "swagger",
+  "api": "api",
   "source": "src",
   "test": "test"
 }
