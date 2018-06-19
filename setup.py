@@ -11,10 +11,11 @@ setup(
    author_email='loinguyentrung@gmail.com',
    packages=find_packages(),
    install_requires=[
+      'pytest',
       'click',
       'mysql-connector-python'
    ],
    scripts=[
-        'rest'
+      'rest'
    ]
 )

@@ -1,3 +1,3 @@
 
-class Io:
+class IO:
     pass
