@@ -5,3 +5,6 @@ dist
 rest.egg*
 vendor
 composer.lock
+*.pyc
+__pycache__
+.pytest_cache
