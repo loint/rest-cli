@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from setuptools import setup, find_packages
 
 setup(
@@ -8,7 +11,8 @@ setup(
    author_email='loinguyentrung@gmail.com',
    packages=find_packages(),
    install_requires=[
-       'click'
+      'click',
+      'mysql-connector-python'
    ],
    scripts=[
         'rest'

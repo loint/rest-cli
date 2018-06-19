@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from click import *
 
 
@@ -14,8 +15,7 @@ Usages:
     --docs : Api documentation
     --app  : Skeleton application
     --db   : Database manipulation
-    --help : Command line usages
-        '''
+    --help : Command line usages'''
 
 
 if __name__ == '__main__':

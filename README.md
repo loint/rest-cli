@@ -1,4 +1,9 @@
-# Configurable Restful
-Configurable restful application makes more fun !
+# Command line supports for PHP Restful application
 
-rest docs --config=
+### Installation
+```
+make
+```
+
+### Usages
+

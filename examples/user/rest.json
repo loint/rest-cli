@@ -1,0 +1,8 @@
+{
+  "platform" : "lumen", // Symfony flex, Laravel lumen & Phalcon micro
+  "abstract" : "app",
+  "doc": "doc",
+  "api": "api",
+  "source": "src",
+  "test": "test"
+}
