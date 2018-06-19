@@ -1,0 +1,3 @@
+
+class Io:
+    pass

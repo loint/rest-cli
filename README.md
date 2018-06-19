@@ -1,4 +1,4 @@
-# Command line supports for PHP Restful application
+# Command line supports for PHP Restful Application
 
 ### Installation
 ```

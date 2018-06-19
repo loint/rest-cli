@@ -1,8 +1,4 @@
-# Note: Please install MySQL driver for Python
-# $ easy_install mysql-python
-
 import os
-import sys
 from helper import Helper, MODEL_PATH, REPOSITORY_PATH, BIND_PATH
 from template import MODEL_TEMPLATE, MODEL_CONSTRUCTOR_TEMPLATE
 from template import REPOSITORY_IMPLEMENTATION_TEMPLATE
@@ -15,213 +11,208 @@ from template import REPOSITORY_INTERFACE_FILTER_TEMPLATE
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
 
-def mysql_to_php_type(mysql_table_name, mysql_column_name, mysql_column_type):
-    """
-    Convert data type in mysql to php data type
-    This is an interceptor allow us to customize when migration
-    has new data types
+class SchemaUtil:
+    def __init__(self):
+        pass
 
-    :param mysql_table_name: string
-    :param mysql_column_name: string
-    :param mysql_column_type: string
-    :return: string
-    """
-    if mysql_table_name == 'tr_job' and mysql_column_name == 'ActionArguments':
-        return 'array'
-    if mysql_column_type.startswith('date'):
-        return '\DateTime'
-    if mysql_column_type.startswith('datetime'):
-        return '\DateTime'
-    if mysql_column_type.startswith('int'):
-        return 'int'
-    if mysql_column_type.startswith('tinyint'):
-        return 'boolean'
-    if mysql_column_type.startswith('decimal'):
-        return 'float'
-    if mysql_column_type.startswith('timestamp'):
-        return '\DateTime'
-    if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
-        return 'string'
-    if mysql_column_type.startswith('smallint'):
-        return 'int'
-    if mysql_column_type.startswith('char'):
-        return 'string'
-    if mysql_column_type.startswith('bigint'):
-        return 'int'
-    if mysql_column_type.startswith('time'):
-        return '\DateTime'
-    if mysql_column_type.startswith('mediumint'):
-        return 'int'
-    return 'undefined'
+    @staticmethod
+    def mysql_to_php_type(mysql_table_name, mysql_column_name, mysql_column_type):
+        """
+        Convert data type in mysql to php data type
+        This is an interceptor allow us to customize when migration
+        has new data types
 
+        :param mysql_table_name: string
+        :param mysql_column_name: string
+        :param mysql_column_type: string
+        :return: string
+        """
+        if mysql_table_name == 'tr_job' and mysql_column_name == 'ActionArguments':
+            return 'array'
+        if mysql_column_type.startswith('date'):
+            return '\DateTime'
+        if mysql_column_type.startswith('datetime'):
+            return '\DateTime'
+        if mysql_column_type.startswith('int'):
+            return 'int'
+        if mysql_column_type.startswith('tinyint'):
+            return 'boolean'
+        if mysql_column_type.startswith('decimal'):
+            return 'float'
+        if mysql_column_type.startswith('timestamp'):
+            return '\DateTime'
+        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
+            return 'string'
+        if mysql_column_type.startswith('smallint'):
+            return 'int'
+        if mysql_column_type.startswith('char'):
+            return 'string'
+        if mysql_column_type.startswith('bigint'):
+            return 'int'
+        if mysql_column_type.startswith('time'):
+            return '\DateTime'
+        if mysql_column_type.startswith('mediumint'):
+            return 'int'
+        return 'undefined'
 
-def mysql_default_value(mysql_column_type):
-    """
-    MySQL Default value for not nullable fields
+    @staticmethod
+    def mysql_default_value(mysql_column_type):
+        """
+        MySQL Default value for not nullable fields
 
-    :param mysql_column_type: string
-    :return: mixed
-    """
-    if mysql_column_type.startswith('date'):
-        return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
-    if mysql_column_type.startswith('datetime'):
-        return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
-    if mysql_column_type.startswith('int'):
-        return 0
-    if mysql_column_type.startswith('tinyint'):
-        return 0
-    if mysql_column_type.startswith('decimal'):
-        return 0
-    if mysql_column_type.startswith('timestamp'):
-        return 0
-    if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
+        :param mysql_column_type: string
+        :return: mixed
+        """
+        if mysql_column_type.startswith('date'):
+            return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
+        if mysql_column_type.startswith('datetime'):
+            return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
+        if mysql_column_type.startswith('int'):
+            return 0
+        if mysql_column_type.startswith('tinyint'):
+            return 0
+        if mysql_column_type.startswith('decimal'):
+            return 0
+        if mysql_column_type.startswith('timestamp'):
+            return 0
+        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
+            return ''
+        if mysql_column_type.startswith('smallint'):
+            return 0
+        if mysql_column_type.startswith('char'):
+            return ''
+        if mysql_column_type.startswith('bigint'):
+            return 0
+        if mysql_column_type.startswith('time'):
+            return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
+        if mysql_column_type.startswith('mediumint'):
+            return 0
         return ''
-    if mysql_column_type.startswith('smallint'):
-        return 0
-    if mysql_column_type.startswith('char'):
-        return ''
-    if mysql_column_type.startswith('bigint'):
-        return 0
-    if mysql_column_type.startswith('time'):
-        return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
-    if mysql_column_type.startswith('mediumint'):
-        return 0
-    return ''
 
+    @staticmethod
+    def convert_table_to_camel_name(table_name):
+        """
+        Convert table name to camel case
+        This is an interceptor allow us to standardize when the
+        table names do not have same rules
 
-def convert_table_to_camel_name(table_name):
-    """
-    Convert table name to camel case
-    This is an interceptor allow us to standardize when the
-    table names do not have same rules
+        :param table_name: string
+        :return: string
+        """
+        return Helper.snake_case_to_camel_case(table_name)
 
-    :param table_name: string
-    :return: string
-    """
-    return Helper.snake_case_to_camel_case(table_name)
+    @staticmethod
+    def convert_column_to_camel_name(column_name):
+        """
+        Convert column name to camel case
+        This is an interceptor allow us to standardize when the
+        column names are lower or do not have same rules
 
+        :param column_name: string
+        :return: string
+        """
+        return Helper.snake_case_to_camel_case(column_name)
 
-def convert_column_to_camel_name(column_name):
-    """
-    Convert column name to camel case
-    This is an interceptor allow us to standardize when the
-    column names are lower or do not have same rules
+    @staticmethod
+    def intercept_filter_set(
+            php_model_name,
+            php_property_name,
+            php_property_type,
+            mysql_table_name,
+            mysql_column_name,
+            mysql_column_type):
+        """
+        Set filter interceptor
+        This is an interceptor allow us to intercept to setter base
+        on php types and mysql types
 
-    :param column_name: string
-    :return: string
-    """
-    return Helper.snake_case_to_camel_case(column_name)
+        :param php_model_name: string
+        :param php_property_name: string
+        :param php_property_type: string
+        :param mysql_table_name: string
+        :param mysql_column_name: string
+        :param mysql_column_type: string
+        :return: string
+        """
+        if mysql_column_type == 'datetime':
+            return '''
+            if (${camel_variable_name} === null) {
+                $this->attributes[self::{constant_field_name}] = null;
+            } else {
+                $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d H:i:s\');
+            }'''
+        if mysql_column_type == 'date':
+            return '''
+            if (${camel_variable_name} === null) {
+                $this->attributes[self::{constant_field_name}] = null;
+            } else {
+                $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d\');
+            }'''
+        if php_property_type == 'float':
+            return '''
+            if (${camel_variable_name} === null) {
+                $this->attributes[self::{constant_field_name}] = null;
+            } else {
+                $this->attributes[self::{constant_field_name}] = (float) ${camel_variable_name};
+            }'''
+        if php_property_type == 'int':
+            return '''if (${camel_variable_name} === null) {
+                $this->attributes[self::{constant_field_name}] = null;
+            } else {
+                $this->attributes[self::{constant_field_name}] = (int) ${camel_variable_name};
+            }'''
+        return '$this->attributes[self::{constant_field_name}] = ${camel_variable_name};'
 
+    @staticmethod
+    def intercept_filter_get(
+            php_model_name,
+            php_property_name,
+            php_property_type,
+            mysql_table_name,
+            mysql_column_name,
+            mysql_column_type):
+        """
+        Get filter interceptor
+        This is an interceptor allow us to intercept to getter base
+        on php types and mysql types
 
-def intercept_filter_set(
-        php_model_name,
-        php_property_name,
-        php_property_type,
-        mysql_table_name,
-        mysql_column_name,
-        mysql_column_type):
-    """
-    Set filter interceptor
-    This is an interceptor allow us to intercept to setter base
-    on php types and mysql types
-
-    :param php_model_name: string
-    :param php_property_name: string
-    :param php_property_type: string
-    :param mysql_table_name: string
-    :param mysql_column_name: string
-    :param mysql_column_type: string
-    :return: string
-    """
-    if php_model_name == 'User' and php_property_name == 'Password':
-        return '$this->attributes[self::{constant_field_name}] = Hash::make(${camel_variable_name});'
-    if php_model_name == 'TrJob' and php_property_name == 'ActionArguments':
-        return '$this->attributes[self::{constant_field_name}] = json_encode(${camel_variable_name});'
-    if mysql_column_type == 'datetime':
-        return '''
-        if (${camel_variable_name} === null) {
-            $this->attributes[self::{constant_field_name}] = null;
-        } else {
-            $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d H:i:s\');
-        }'''
-    if mysql_column_type == 'date':
-        return '''
-        if (${camel_variable_name} === null) {
-            $this->attributes[self::{constant_field_name}] = null;
-        } else {
-            $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d\');
-        }'''
-    if php_property_type == 'float':
-        return '''
-        if (${camel_variable_name} === null) {
-            $this->attributes[self::{constant_field_name}] = null;
-        } else {
-            $this->attributes[self::{constant_field_name}] = (float) ${camel_variable_name};
-        }'''
-    if php_property_type == 'int':
-        return '''if (${camel_variable_name} === null) {
-            $this->attributes[self::{constant_field_name}] = null;
-        } else {
-            $this->attributes[self::{constant_field_name}] = (int) ${camel_variable_name};
-        }'''
-    return '$this->attributes[self::{constant_field_name}] = ${camel_variable_name};'
-
-
-def intercept_filter_get(
-        php_model_name,
-        php_property_name,
-        php_property_type,
-        mysql_table_name,
-        mysql_column_name,
-        mysql_column_type):
-    """
-    Get filter interceptor
-    This is an interceptor allow us to intercept to getter base
-    on php types and mysql types
-
-    :param php_model_name: string
-    :param php_property_name: string
-    :param php_property_type: string
-    :param mysql_table_name: string
-    :param mysql_column_name: string
-    :param mysql_column_type: string
-    :return: string
-    """
-    if php_model_name == 'TrJob' and php_property_name == 'ActionArguments':
-        return '''if ($this->attributes[self::{constant_field_name}] === null) {
-            return array();
-        }
-        return json_decode($this->attributes[self::{constant_field_name}]);
-        '''
-    if mysql_column_type == 'datetime':
-        return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
-        if (empty($dateTimeStringValue)) {
-            return null;
-        }
-        $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d H:i:s\', $dateTimeStringValue);
-        return $dateTimeObject;'''
-    if mysql_column_type == 'date':
-        return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
-        if (empty($dateTimeStringValue)) {
-            return null;
-        }
-        $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d\', $dateTimeStringValue);
-        return $dateTimeObject;'''
-    if php_property_type == 'float':
-        return """$floatValue = $this->attributes[self::{constant_field_name}];
-        if ($floatValue === null) {
-            return null;
-        }
-
-        return (float) $this->attributes[self::{constant_field_name}];"""
-    if php_property_type == 'int':
-        return """$intValue = $this->attributes[self::{constant_field_name}];
-        if ($intValue === null) {
-            return null;
-        }
-
-        return (int) $this->attributes[self::{constant_field_name}];"""
-    return 'return $this->attributes[self::{constant_field_name}];'
+        :param php_model_name: string
+        :param php_property_name: string
+        :param php_property_type: string
+        :param mysql_table_name: string
+        :param mysql_column_name: string
+        :param mysql_column_type: string
+        :return: string
+        """
+        if mysql_column_type == 'datetime':
+            return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
+            if (empty($dateTimeStringValue)) {
+                return null;
+            }
+            $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d H:i:s\', $dateTimeStringValue);
+            return $dateTimeObject;'''
+        if mysql_column_type == 'date':
+            return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
+            if (empty($dateTimeStringValue)) {
+                return null;
+            }
+            $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d\', $dateTimeStringValue);
+            return $dateTimeObject;'''
+        if php_property_type == 'float':
+            return """$floatValue = $this->attributes[self::{constant_field_name}];
+            if ($floatValue === null) {
+                return null;
+            }
+    
+            return (float) $this->attributes[self::{constant_field_name}];"""
+        if php_property_type == 'int':
+            return """$intValue = $this->attributes[self::{constant_field_name}];
+            if ($intValue === null) {
+                return null;
+            }
+    
+            return (int) $this->attributes[self::{constant_field_name}];"""
+        return 'return $this->attributes[self::{constant_field_name}];'
 
 
 class ModelGenerator:
@@ -403,9 +394,9 @@ class ModelGenerator:
                 if column[2] == "NO":
                     column_null = False
                 table = {
-                    'php_model_name': convert_table_to_camel_name(table_name),
-                    'php_property_name': convert_column_to_camel_name(column_name),
-                    'php_property_type': mysql_to_php_type(table_name, column_name, column_type),
+                    'php_model_name': SchemaUtil.convert_table_to_camel_name(table_name),
+                    'php_property_name': SchemaUtil.convert_column_to_camel_name(column_name),
+                    'php_property_type': SchemaUtil.mysql_to_php_type(table_name, column_name, column_type),
                     'mysql_table_name': table_name,
                     'mysql_column_name': column_name,
                     'mysql_column_type': column_type,
@@ -427,7 +418,7 @@ class ModelGenerator:
             constant_name = Helper.camel_case_to_snake_case(field['php_property_name']).upper()
             default_value = 'null'
             if not field['mysql_allow_null']:
-                default_value = mysql_default_value(field['mysql_column_type'])
+                default_value = SchemaUtil.mysql_default_value(field['mysql_column_type'])
             if field['mysql_column_default'] is not None:
                 default_value = field['mysql_column_default']
             if len(str(default_value)) == 0:
@@ -493,7 +484,7 @@ class ModelGenerator:
                 setter_name = 'set' + setter_name
                 getter_name = 'get' + getter_name
             # Bind template variables
-            field_set_get_content = field_set_get_content.replace('{intercept_filter_set}', intercept_filter_set(
+            field_set_get_content = field_set_get_content.replace('{intercept_filter_set}', SchemaUtil.intercept_filter_set(
                 php_model_name=model_name,
                 php_property_name=field['php_property_name'],
                 php_property_type=field['php_property_type'],
@@ -501,7 +492,7 @@ class ModelGenerator:
                 mysql_column_name=field['mysql_column_name'],
                 mysql_column_type=field['mysql_column_type']
             ))
-            field_set_get_content = field_set_get_content.replace('{intercept_filter_get}', intercept_filter_get(
+            field_set_get_content = field_set_get_content.replace('{intercept_filter_get}', SchemaUtil.intercept_filter_get(
                 php_model_name=model_name,
                 php_property_name=field['php_property_name'],
                 php_property_type=field['php_property_type'],
@@ -530,7 +521,7 @@ class ModelGenerator:
         """
         if table_name == 'migrations':
             return
-        model_name = convert_table_to_camel_name(table_name)
+        model_name = SchemaUtil.convert_table_to_camel_name(table_name)
         model_name_with_space = ' '.join(Helper.split_camel_case(model_name))
         if model_name not in self._models:
             print 'Detect new table ', table_name
@@ -845,21 +836,3 @@ class ModelGenerator:
                     model_name=model
                 )
         self.update_repository_to_bind(repositories)
-
-
-if __name__ == '__main__':
-    """
-    Start model generator
-    """
-    generator = ModelGenerator()
-    generator.set_model_path(MODEL_PATH)
-    generator.set_bind_path(BIND_PATH)
-    generator.set_identifier('//*************************************************')
-    if len(sys.argv) == 2:
-        generator.set_generated_model(sys.argv[1])
-    generator.scan_models()
-    generator.scan_database()
-    generator.generate_models()
-    generator.scan_models()
-    generator.scan_model_annotation()
-    generator.generate_repositories()

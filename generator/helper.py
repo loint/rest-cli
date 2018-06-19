@@ -1,6 +1,3 @@
-# Note: Please install MySQL driver for Python
-# $ easy_install mysql-python
-
 import re
 import os.path
 import mysql.connector
