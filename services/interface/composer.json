@@ -1,0 +1,11 @@
+{
+    "name": "loint/interface",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Loi Nguyen",
+            "email": "loinguyentrung@gmail.com"
+        }
+    ],
+    "require": {}
+}
