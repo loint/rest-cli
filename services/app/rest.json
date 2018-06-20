@@ -1,6 +1,8 @@
 {
+  "name": "app",
   "config" : "api",
-  "document": "public/docs",
+  "document": "public/docs/api.json",
   "source": "src",
-  "test": "test"
+  "test": "test",
+  "interface": "../interface/src"
 }
