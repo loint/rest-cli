@@ -1,4 +1,4 @@
-# Command line supports for PHP Micro Services
+# Command line supports for Micro Services written in PHP
 
 ### Prerequisite
 - [x] Python for Rest
@@ -21,25 +21,37 @@ make && sudo make install
 ### Usages (in proposals)
 1. Create micro-service application
 ```
-rest create user
+$ rest create user
 ```
 2. Enter user service and write some migrations and up them with
 ```
-rest migrate
+$ rest migrate
 ```
 3. Synchronous model - repository and service base on schema
 ```
-rest sync
+$ rest sync
 ```
 4. Create some endpoints in /api then controller and integration test will be ready
 ```
-rest api
+$ rest api
 ```
 5. Generate Swagger documentation base
 ```
-rest doc
+$ rest doc
 ```
 6. Serve your application to test in browser with
 ```
-rest serve
+$ rest serve
+```
+7. Check current version
+```
+$ rest version
+```
+8. Automatically updates
+```
+$ rest upgrade
+```
+9. Need more help ?
+```
+$ rest help
 ```
