@@ -1,11 +1,11 @@
-# Command line supports for Micro Services written in PHP
+# Rest
+[![Build Status](https://travis-ci.org/loint/rest.svg?branch=master)](https://travis-ci.org/loint/rest)
 
 ### Prerequisite
-- [x] Python for Rest
+- [x] Python 2.7
+- [x] Pip
 - [x] PHP 7.2
-- [x] Laravel Lumen 5.6
-- [x] Doctrine Migrations
-- [x] PHPUnit 7.2
+- [x] Composer
 
 ### Installation
 ```
@@ -53,5 +53,5 @@ $ rest upgrade
 ```
 9. Need more help ?
 ```
-$ rest help
+$ rest --help
 ```

@@ -6,7 +6,34 @@ from generator import *
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
 
-def generate_model():
+@group()
+def create_cli():
+    pass
+
+
+@create_cli.command()
+def create():
+    """Create micro service application"""
+    print 'Do something cmd 1'
+
+
+@group()
+def migrate_cli():
+    pass
+
+
+@migrate_cli.command()
+def migrate():
+    """Migrate database schema"""
+
+
+@group()
+def sync_cli():
+    pass
+
+
+@sync_cli.command
+def sync():
     """
     Scan database schema and update structure
     for models - repositories and services
@@ -23,20 +50,77 @@ def generate_model():
     generator.generate_repositories()
 
 
-@command()
-@option('--docs', default=False, is_flag=True, help='Generate api documentation')
-@option('--help', default=False, is_flag=True, help='')
-def rest(docs, help):
-    if docs:
-        print 'Generate Swagger documentation'
-    if help:
-        print '''A full stack command supports for web service application
-Usages:
-    --docs : Update api documentation
-    --app  : Create skeleton application
-    --db   : Update database schema with model and repository
-    --help : Command line usages'''
+@group()
+def api_cli():
+    pass
 
+
+@api_cli.command()
+def api():
+    """Compile routes to controllers and test cases"""
+
+
+@group()
+def doc_cli():
+    pass
+
+
+@doc_cli.command()
+def doc():
+    """Generate documentation with Swagger"""
+
+
+@group()
+def serve_cli():
+    pass
+
+
+@serve_cli.command()
+def serve():
+    """Serve application with PHP built-in server"""
+
+
+@group()
+def test_cli():
+    pass
+
+
+@test_cli.command()
+def test():
+    """Run test cases with PHPUnit"""
+
+
+@group()
+def version_cli():
+    pass
+
+
+@version_cli.command()
+def version():
+    """Check current version"""
+
+
+@group()
+def upgrade_cli():
+    pass
+
+
+@upgrade_cli.command()
+def upgrade():
+    """Upgrade rest command to latest version"""
+
+
+cli = CommandCollection(sources=[
+    create_cli,
+    migrate_cli,
+    sync_cli,
+    api_cli,
+    doc_cli,
+    serve_cli,
+    test_cli,
+    version_cli,
+    upgrade_cli
+])
 
 if __name__ == '__main__':
-    rest()
+    cli()
