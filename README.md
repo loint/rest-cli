@@ -1,4 +1,4 @@
-# Rest
+# Rest CLI
 [![Build Status](https://travis-ci.org/loint/rest.svg?branch=master)](https://travis-ci.org/loint/rest)
 
 ### Prerequisite
