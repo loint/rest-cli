@@ -12,6 +12,10 @@ __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
 
 class SchemaUtil:
+    """
+    Provide a set of functionality manipulate with database schema
+    Support data type conversion between PHP and MySQL
+    """
     def __init__(self):
         pass
 
@@ -27,32 +31,30 @@ class SchemaUtil:
         :param mysql_column_type: string
         :return: string
         """
-        if mysql_table_name == 'tr_job' and mysql_column_name == 'ActionArguments':
-            return 'array'
+        if mysql_column_type.startswith('tinyint'):
+            return 'boolean'
+        if mysql_column_type.startswith('smallint'):
+            return 'int'
+        if mysql_column_type.startswith('int'):
+            return 'int'
+        if mysql_column_type.startswith('mediumint'):
+            return 'int'
+        if mysql_column_type.startswith('bigint'):
+            return 'int'
+        if mysql_column_type.startswith('decimal'):
+            return 'float'
+        if mysql_column_type.startswith('char'):
+            return 'string'
+        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
+            return 'string'
+        if mysql_column_type.startswith('time'):
+            return '\DateTime'
         if mysql_column_type.startswith('date'):
             return '\DateTime'
         if mysql_column_type.startswith('datetime'):
             return '\DateTime'
-        if mysql_column_type.startswith('int'):
-            return 'int'
-        if mysql_column_type.startswith('tinyint'):
-            return 'boolean'
-        if mysql_column_type.startswith('decimal'):
-            return 'float'
         if mysql_column_type.startswith('timestamp'):
             return '\DateTime'
-        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
-            return 'string'
-        if mysql_column_type.startswith('smallint'):
-            return 'int'
-        if mysql_column_type.startswith('char'):
-            return 'string'
-        if mysql_column_type.startswith('bigint'):
-            return 'int'
-        if mysql_column_type.startswith('time'):
-            return '\DateTime'
-        if mysql_column_type.startswith('mediumint'):
-            return 'int'
         return 'undefined'
 
     @staticmethod
@@ -63,29 +65,29 @@ class SchemaUtil:
         :param mysql_column_type: string
         :return: mixed
         """
+        if mysql_column_type.startswith('tinyint'):
+            return 0
+        if mysql_column_type.startswith('smallint'):
+            return 0
+        if mysql_column_type.startswith('int'):
+            return 0
+        if mysql_column_type.startswith('mediumint'):
+            return 0
+        if mysql_column_type.startswith('bigint'):
+            return 0
+        if mysql_column_type.startswith('decimal'):
+            return 0
+        if mysql_column_type.startswith('char'):
+            return ''
+        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
+            return ''
+        if mysql_column_type.startswith('time'):
+            return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
         if mysql_column_type.startswith('date'):
             return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
         if mysql_column_type.startswith('datetime'):
             return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
-        if mysql_column_type.startswith('int'):
-            return 0
-        if mysql_column_type.startswith('tinyint'):
-            return 0
-        if mysql_column_type.startswith('decimal'):
-            return 0
         if mysql_column_type.startswith('timestamp'):
-            return 0
-        if mysql_column_type.startswith('varchar') or mysql_column_type.startswith('text'):
-            return ''
-        if mysql_column_type.startswith('smallint'):
-            return 0
-        if mysql_column_type.startswith('char'):
-            return ''
-        if mysql_column_type.startswith('bigint'):
-            return 0
-        if mysql_column_type.startswith('time'):
-            return "\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP')"
-        if mysql_column_type.startswith('mediumint'):
             return 0
         return ''
 
@@ -267,14 +269,26 @@ class ModelGenerator:
         pass
 
     def set_model_path(self, model_path):
+        """
+        Model path is a place to put all models
+
+        :param model_path:
+        :return:
+        """
         self._model_path = Helper.get_absolute_path_from_local_path(model_path)
 
     def set_bind_path(self, bind_path):
+        """
+        Bind path as file path link to dependencies collection
+        Support automatically bind for new repository or service
+        :param bind_path:
+        :return:
+        """
         self._bind_path = Helper.get_absolute_path_from_local_path(bind_path)
 
     def set_identifier(self, identifier):
         """
-        Set identifier
+        Set identifier use to separate generated and modified source code
 
         :param identifier:
         :return:
@@ -307,15 +321,14 @@ class ModelGenerator:
                 if model_file_name.endswith('.php'):
                     self.scan_by_model_file_name(model_file_name)
 
-    def find_annotations_by_content(self, model_content):
+    @staticmethod
+    def find_annotations_by_content(model_content):
         """
-        Find all annotations by content
+        Find all annotations by model content
 
         :return: dict
         """
-        constants = []
         selects = []
-        uniques = []
         updates = []
         deletes = []
         counts = []
@@ -324,12 +337,8 @@ class ModelGenerator:
             line = line.strip()
             filter_components = line.split(' ')
             if len(filter_components) > 2:
-                if line.startswith('* @constant'):
-                    constants.append(filter_components[2:])
                 if line.startswith('* @select'):
                     selects.append(filter_components[2:])
-                if line.startswith('* @unique'):
-                    uniques.append(filter_components[2:])
                 if line.startswith('* @update'):
                     updates.append(filter_components[2:])
                 if line.startswith('* @delete'):
@@ -337,9 +346,7 @@ class ModelGenerator:
                 if line.startswith('* @count'):
                     counts.append(filter_components[2:])
         annotations = {
-            '@constants': constants,
             '@selects': selects,
-            '@uniques': uniques,
             '@updates': updates,
             '@deletes': deletes,
             '@counts': counts
@@ -425,7 +432,7 @@ class ModelGenerator:
                 default_value = '""'
             if default_value == '{}':
                 default_value = '"{}"'
-            if (constant_name.upper() == 'ID'):
+            if constant_name.upper() is 'id':
                 default_value = 'null'
             default_setters += '        $this->attributes[self::' + constant_name + '] = ' + str(default_value) + ';\n';
 
@@ -435,36 +442,9 @@ class ModelGenerator:
         })
         return constructor
 
-    @staticmethod
-    def __generate_constant_values(table_name, constant_pairs):
-        """
-        Generate constant values for model
-
-        :param table_name:
-        :param constant_pairs:
-        :return:
-        """
-        constants_content = ''
-        for constant_pair in constant_pairs:
-            if len(constant_pair) != 2:
-                print 'Can not generate constants for table name ' + table_name
-                continue
-            constant_column = constant_pair[0]
-            value_column = constant_pair[1]
-            select_constants = "SELECT DISTINCT `" + constant_column + "`, `" + value_column + "` FROM " + table_name
-            _, _, cursor = Helper.connect_database()
-            constants = Helper.execute_with_cursor(cursor, select_constants)
-            constants_content += '\n    // Constant values by column name `' + constant_column + '` with `' + value_column + '`\n'
-            for constant_name, constant_value in constants:
-                constant_name = constant_column + '_' + constant_name
-                constant_name = Helper.camel_case_to_snake_case(constant_name).upper()
-                constant_name = constant_name.replace('__', '_')
-                constants_content += '    const ' + constant_name + ' = ' + str(constant_value) + ';\n'
-        return constants_content
-
     def __generate_setter_getter(self, model_name, fields):
         """
-        Generate setter and getter for Laravel models
+        Generate setter and getter for models
 
         :param: model_name string
         :param:  fields array
@@ -555,7 +535,6 @@ class ModelGenerator:
             content = self._models[model]['content']
             content += self._identifier + '\n    '
             content += self.__generate_constructor(model, self._tables[table_name])
-            content += self.__generate_constant_values(table_name, self._models[model]['constants']) + '\n\n    '
             content += self.__generate_setter_getter(model, self._tables[table_name])
             content += '\n}\n'
             model_file = open(self._models[model]['file_path'], "w")
@@ -630,18 +609,7 @@ class ModelGenerator:
         model_name_plural = model_name + 's'
         if model_name[-1:] == 'y':
             model_name_plural = model_name[:-1] + 'ies'
-        set_keys = ''
-        unset_keys = ''
-        filters = self._models[model_name]['filters']
-        for unique_fields in filters['@uniques']:
-            method_name = '""'
-            for select in unique_fields:
-                method_name += ' . "_" . $record->get' + select + '()'
-            set_keys += '\n\t\t\t$GLOBALS[\"cache_' + model_name + '_' + '_'.join(unique_fields) + '\"][' + method_name  + '] = &$record;'
-            unset_keys += '\n\t\t\tunset($GLOBALS[\"cache_' + model_name + '_' + '_'.join(unique_fields) + '\"]);'
         repository_implementation_content = Helper.bind(template, {
-            'set_keys': set_keys,
-            'unset_keys': unset_keys,
             'model_name': model_name,
             'model_name_plural': model_name_plural,
             'repository_name': repository_name,
@@ -663,8 +631,6 @@ class ModelGenerator:
         filters = self._models[model_name]['filters']
         repository_implementation_content = ''
         for annotation_name in filters:
-            if annotation_name == '@constants':
-                continue
             if len(filters[annotation_name]) == 0:
                 continue
             table_name = Helper.camel_case_to_snake_case(model_name)
@@ -784,7 +750,7 @@ class ModelGenerator:
             lines = stream.read().strip()
             bind_components = lines.split(self._identifier)
             if len(bind_components) != 2:
-                print 'Identifier not found in bind.php'
+                print 'Identifier not found in dependency list'
                 exit(1)
             else:
                 repository_classes = ''

@@ -3,7 +3,7 @@ import pytest
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
 
-class TestHelper:
+class TestSchemaUtil:
 
-    def test_abc(self):
-        assert 0==1
+    def test_schema(self):
+        assert 4 == 3

@@ -1,0 +1,6 @@
+{
+  "config" : "api",
+  "document": "public/docs",
+  "source": "src",
+  "test": "test"
+}

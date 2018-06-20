@@ -30,7 +30,7 @@ class {model_name} extends Model
     {
     }
 
-    // TODO - Your relationships here
+    // TODO - Model relationships here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
     //*************************************************
@@ -246,33 +246,6 @@ REPOSITORY_INTERFACE_BUILTIN_TEMPLATE = """
 
 REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
     /**
-     * Store all records in memory
-     *
-     * @param array $records
-     * @return void
-     */
-    public function storeInMemory($records = array())
-    {
-        if (empty($records)) {
-            $records = $this->getAll{model_name_plural}();
-        }
-        /** @var {model_name} $record */
-        foreach ($records as $record) {
-            $GLOBALS["cache_{model_name}_Id"][$record->getId()] = $record;{set_keys}
-        }
-    }
-
-    /**
-     * Flush all records in memory
-     *
-     * @return void
-     */
-    public function flushMemory()
-    {
-           unset($GLOBALS["cache_{model_name}_Id"]);{unset_keys}
-    }
-
-    /**
      * Get last record id of {model_name}.
      *
      * @return {model_name} || null
@@ -301,12 +274,6 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
      */
     public function get{model_name}ById($id)
     {
-        if (isset($GLOBALS["cache_{model_name}_Id"])) {
-            $modelList = $GLOBALS["cache_{model_name}_Id"];
-            if (($modelList !== null) && isset($modelList[$id])) {
-                return $modelList[$id];
-            }
-        }
         return {model_name}::find($id);
     }
 
@@ -350,12 +317,6 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
         $data = [];
         /** @var \Illuminate\Database\Eloquent\Model $record */
         foreach ($records as $record) {
-            if (($record->getId() === 0) || ($record->getId() === null)) {
-                $record->setCreatedBy(\App\Common\Helpers\UserHelper::getCurrentUserId());
-                $record->setCreatedAt(new \DateTime('now'));
-            }
-            $record->setUpdatedBy(\App\Common\Helpers\UserHelper::getCurrentUserId());
-            $record->setUpdatedAt(new \DateTime('now'));
             $data[] = $record->getAttributes();
         }
 
@@ -375,8 +336,6 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
         $condition = [
             {model_name}::ID => $id,
         ];
-        $data[{model_name}::UPDATED_BY] = \App\Common\Helpers\UserHelper::getCurrentUserId();
-        $data[{model_name}::UPDATED_AT] = new \DateTime('now');
         return {model_name}::where($condition)->update($data);
     }
 
@@ -390,8 +349,6 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
      */
     public function update{model_name_plural}ByConditions($conditions, $data)
     {
-        $data[{model_name}::UPDATED_BY] = \App\Common\Helpers\UserHelper::getCurrentUserId();
-        $data[{model_name}::UPDATED_AT] = new \DateTime('now');
         return {model_name}::where($conditions)->update($data);
     }
 
@@ -492,14 +449,6 @@ REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE = """
      */
     public function {filter_name}{model_name_plural}By{camel_conditions}({condition_arguments})
     {
-        if (isset($GLOBALS["cache_{model_name}_{unique_conditions}"])) {
-            $modelList = $GLOBALS["cache_{model_name}_{unique_conditions}"];
-            if (($modelList !== null) && isset($modelList[{unique_values}])) {
-                $collection = collect();
-                $collection->push($modelList[{unique_values}]);
-                return $collection;
-            }
-        }
         $condition = [
 {constants_with_values},
         ];

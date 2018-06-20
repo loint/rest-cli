@@ -4,6 +4,7 @@ build
 dist
 rest.egg*
 vendor
+storage
 composer.lock
 *.pyc
 __pycache__
