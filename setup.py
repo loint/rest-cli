@@ -10,6 +10,8 @@ setup(
    author='Loi Nguyen',
    author_email='loinguyentrung@gmail.com',
    packages=find_packages(),
+   package_data={'service': ['*']},
+   include_package_data=True,
    install_requires=[
       'pytest',
       'click',

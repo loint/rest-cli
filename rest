@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from os import *
-from click import *
-from generator import *
+from os import path, system, getcwd
+from click import group, argument, CommandCollection
+from generator import ModelGenerator, MODEL_PATH, BIND_PATH
+from urllib import urlretrieve
 
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
@@ -13,9 +14,43 @@ def create_cli():
 
 
 @create_cli.command()
-def create():
+@argument('name')
+def create(name):
     """Create micro service application"""
-    print 'Do something cmd 1'
+    if path.isdir(name):
+        print 'Directory ', name, ' does not empty !'
+        confirm_override = raw_input('Would you like to override it ? y/n : ')
+        if confirm_override.lower() != 'y':
+            exit(0)
+    rest = '''{
+  "rest": "{app_name}",
+  "name": "app",
+  "config" : "api",
+  "document": "public/docs/api.json",
+  "source": "src",
+  "test": "test",
+  "interface": "../interface/src",
+  "mysql": {
+    "host": "localhost",
+    "username": "root",
+    "password": "password",
+    "database": "database"
+  }
+}'''
+    rest = rest.replace('{app_name}', name)
+    try:
+        system('rm -rf user')
+        system('rm -f app.zip')
+        system('rm -rf rest-skeleton-master')
+        urlretrieve('https://github.com/loint/rest-skeleton/archive/master.zip', 'app.zip')
+        system('unzip app.zip')
+        system('mv rest-skeleton-master ' + name)
+        rest_file = open(name + '/rest.json', 'w')
+        rest_file.write(rest)
+        rest_file.close()
+    except:
+        print 'Can not create application !'
+        raise
 
 
 @group()
@@ -76,7 +111,7 @@ def require_composer():
         print 'Error ! composer.json is missing.'
         exit(1)
     if not path.isdir(getcwd() + '/vendor'):
-        os.system('composer install')
+        system('composer install')
 
 
 def require_bootstrap():
@@ -94,7 +129,7 @@ def serve_cli():
 def serve():
     """Serve application with PHP built-in server"""
     require_composer()
-    os.system('php -S localhost:8000 -t public')
+    system('php -S localhost:8000 -t public')
 
 
 @group()
@@ -107,7 +142,7 @@ def test():
     """Run test cases with PHPUnit"""
     require_composer()
     require_bootstrap()
-    os.system('php ./vendor/phpunit/phpunit/phpunit --bootstrap src/Bootstrap.php -c phpunit.xml')
+    system('php ./vendor/phpunit/phpunit/phpunit --bootstrap src/Bootstrap.php -c phpunit.xml')
 
 
 @group()
