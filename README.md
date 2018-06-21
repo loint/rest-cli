@@ -13,7 +13,10 @@ make && sudo make install
 ```
 
 ### Road map
-- [x] Reverse database to model - repository
+- [x] Create new service with skeleton
+- [x] Serve and test application
+- [ ] Schema migration
+- [ ] Reverse schema to model - repository
 - [ ] Compile routes and generate controller with test cases
 - [ ] Generate swagger documentation base on routes
 - [ ] Generate micro-service interfaces for inter-communication
