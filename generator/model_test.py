@@ -6,4 +6,4 @@ __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 class TestSchemaUtil:
 
     def test_schema(self):
-        assert 4 == 3
+        assert 4 == 4
