@@ -1,11 +1,20 @@
 # Rest CLI
 [![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli)
 
+If you love ?
+- Beautiful restful web service with standard architecture
+- The fastest way to get things done with less human manipulation
+- Easy way to scale to hundred units as micro-services ?
+
+Then this powerful tool is the right choice for you.
+
+Features:
+- [x] Skeleton application is powered by Laravel Lumen
+- [x] You provide schema and route then "Rest" will do the "rest"
+
 ### Prerequisite
-- [x] Python 2.7
-- [x] Pip
-- [x] PHP 7.2
-- [x] Composer
+- [x] Python 2.7 with pip
+- [x] PHP 7.2 with composer
 
 ### Installation
 ```
@@ -13,15 +22,16 @@ make && make install
 ```
 
 ### Road map
-- [x] Create new service with skeleton
-- [x] Serve and test application
-- [ ] Schema migration
-- [ ] Reverse schema to model - repository
+- [x] Create web service base on skeleton application
+- [x] Database schema migration
+- [ ] Reverse schema to model - repository - service and DI
+- [x] Support annotation query
 - [ ] Compile routes and generate controller with test cases
+- [x] Serve and test application
 - [ ] Generate swagger documentation base on routes
 - [ ] Generate micro-service interfaces for inter-communication
 
-### Usages (in proposals)
+### Usages (Proposal)
 1. Create micro-service application
 ```
 $ rest create user
