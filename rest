@@ -41,7 +41,7 @@ def create_cli():
 def create(name):
     """Create micro service application"""
     if path.isdir(name):
-        print 'Directory ', name, ' does not empty !'
+        print('Directory ', name, ' does not empty !')
         confirm_override = raw_input('Would you like to override it ? y/n : ')
         if confirm_override.lower() != 'y':
             exit(0)
@@ -73,7 +73,7 @@ def create(name):
         rest_file.write(rest)
         rest_file.close()
     except IOError:
-        print 'Can not create application !'
+        print('Can not create application !')
         raise
 
 
@@ -88,9 +88,9 @@ def migrate():
     require_composer()
     require_bootstrap()
     require_artisan()
-    print 'Start migration'
+    print('Start migration')
     if not path.isdir('./src/Shared/Migration'):
-        print 'Please put your migration in src/Shared/Migration'
+        print('Please put your migration in src/Shared/Migration')
         exit(1)
     system('php artisan migrate:refresh --path=src/Shared/Migration --force')
 
@@ -106,16 +106,17 @@ def sync():
     Scan database schema and update structure
     for models - repositories and services
     """
-    generator = ModelGenerator()
-    generator.set_model_path(MODEL_PATH)
-    generator.set_bind_path(BIND_PATH)
-    generator.set_identifier('//*************************************************')
-    generator.scan_models()
-    generator.scan_database()
-    generator.generate_models()
-    generator.scan_models()
-    generator.scan_model_annotation()
-    generator.generate_repositories()
+    print('Synchronizing schema structure')
+    # generator = ModelGenerator()
+    # generator.set_model_path(MODEL_PATH)
+    # generator.set_bind_path(BIND_PATH)
+    # generator.set_identifier('//*************************************************')
+    # generator.scan_models()
+    # generator.scan_database()
+    # generator.generate_models()
+    # generator.scan_models()
+    # generator.scan_model_annotation()
+    # generator.generate_repositories()
 
 
 @group()
@@ -126,6 +127,7 @@ def api_cli():
 @api_cli.command()
 def api():
     """Compile routes to controllers and test cases"""
+    print('Compile routes and generate controller')
 
 
 @group()
@@ -136,6 +138,7 @@ def doc_cli():
 @doc_cli.command()
 def doc():
     """Generate documentation with Swagger"""
+    print('')
 
 
 @group()

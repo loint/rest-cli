@@ -8,7 +8,7 @@ If you love ?
 
 Then this powerful tool is the right choice for you.
 
-Features:
+### Features:
 - [x] Skeleton application is powered by Laravel Lumen
 - [x] You provide schema and route then "Rest" will do the "rest"
 
@@ -32,7 +32,7 @@ make && make install
 - [ ] Generate micro-service interfaces for inter-communication
 
 ### Usages (Proposal)
-1. Create micro-service application
+1. Create web service application
 ```
 $ rest create user
 ```

@@ -22,3 +22,7 @@ script:
   - rest create user
   - cd user
   - rest migrate
+  - rest sync
+  - rest api
+  - rest doc
+  - rest test
