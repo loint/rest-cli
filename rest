@@ -16,7 +16,7 @@ def require_composer():
     if find_executable('composer') is None:
         print('Error ! Composer is require for PHP Project')
     if not path.isdir(getcwd() + '/vendor'):
-        system('composer install --prefer-dist --no-interaction --stability=dev')
+        system('composer install --prefer-dist --no-interaction')
 
 
 def require_bootstrap():
