@@ -1,8 +1,9 @@
-language: python
 os:
   - linux
 python:
   - 2.7
+php:
+  - 7.2
 services:
   - mysql
 before_script:

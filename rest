@@ -12,6 +12,9 @@ def require_composer():
     if not path.isfile('./composer.json'):
         print('Error ! composer.json is missing.')
         exit(1)
+    from distutils.spawn import find_executable
+    if find_executable('composer') is None:
+        print('Error ! Composer is require for PHP Project')
     if not path.isdir(getcwd() + '/vendor'):
         system('composer install')
 
@@ -82,8 +85,10 @@ def migrate_cli():
 @migrate_cli.command()
 def migrate():
     """Migrate database schema"""
-    print 'Start migration'
+    require_composer()
+    require_bootstrap()
     require_artisan()
+    print 'Start migration'
     if not path.isdir('./src/Shared/Migration'):
         print 'Please put your migration in src/Shared/Migration'
         exit(1)
