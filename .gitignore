@@ -2,7 +2,7 @@
 .idea
 build
 dist
-rest.egg*
+rest_cli*
 *.pyc
 __pycache__
 .pytest_cache

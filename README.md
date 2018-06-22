@@ -18,7 +18,7 @@ Then this powerful tool is the right choice for you.
 
 ### Installation
 ```
-make && make install
+pip install rest-cli
 ```
 
 ### Road map
