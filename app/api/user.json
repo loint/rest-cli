@@ -1,0 +1,70 @@
+{
+  "route": "/user",
+  "method": {
+    "POST": {
+      "description": "Create a user",
+      "author": "Loi Nguyen <loinguyentrung@gmail.com>",
+      "input": {
+        "email": "string",
+        "username": "string",
+        "password": "string",
+        "firstName": "string",
+        "lastName": "string"
+      },
+      "output": {
+        "id": "int"
+      }
+    },
+    "GET": {
+      "description": "Get all users",
+      "author": "Loi Nguyen <loinguyentrung@gmail.com>",
+      "output": [
+        {
+          "id": "int",
+          "username": "string",
+          "email": "string",
+          "firstName": "string",
+          "lastName": "string"
+        }
+      ]
+    }
+  },
+  "child": [
+    {
+      "route": "/{id}",
+      "method": {
+        "GET": {
+          "description": "Get user detail",
+          "author": "Loi Nguyen <loinguyentrung@gmail.com>",
+          "output": {
+            "id": "int",
+            "username": "string",
+            "email": "string",
+            "firstName": "string",
+            "lastName": "string",
+            "birthday": "date"
+          }
+        },
+        "PUT": {
+          "description": "Update user detail",
+          "author": "Loi Nguyen <loinguyentrung@gmail.com",
+          "input": {
+            "username": "string",
+            "firstName": "string",
+            "lastName": "string"
+          },
+          "output": {
+            "id": "int"
+          }
+        },
+        "DELETE": {
+          "description": "Delete user by id",
+          "author": "Loi Nguyen <loinguyentrung@gmail.com",
+          "output": {
+            "id": "int"
+          }
+        }
+      }
+    }
+  ]
+}

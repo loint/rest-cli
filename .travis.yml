@@ -1,10 +1,17 @@
 language: python
+os:
+  - linux
+  - osx
 python:
   - "2.7"
 services:
   - mysql
+  - docker
 install:
   - make
   - make install
 script:
   - make test
+  - rest create user
+  - cd user
+  - rest migrate

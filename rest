@@ -8,6 +8,26 @@ from urllib import urlretrieve
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
 
+def require_composer():
+    if not path.isfile('./composer.json'):
+        print('Error ! composer.json is missing.')
+        exit(1)
+    if not path.isdir(getcwd() + '/vendor'):
+        system('composer install')
+
+
+def require_bootstrap():
+    if not path.isfile('./src/Bootstrap.php'):
+        print('Error ! src/Bootstrap.php is missing')
+        exit(1)
+
+
+def require_artisan():
+    if not path.isfile('./artisan'):
+        print('Error ! Missing Laravel artisan')
+        exit(1)
+
+
 @group()
 def create_cli():
     pass
@@ -44,11 +64,12 @@ def create(name):
         system('rm -rf rest-skeleton-master')
         urlretrieve('https://github.com/loint/rest-skeleton/archive/master.zip', 'app.zip')
         system('unzip app.zip')
+        system('rm -f app.zip')
         system('mv rest-skeleton-master ' + name)
         rest_file = open(name + '/rest.json', 'w')
         rest_file.write(rest)
         rest_file.close()
-    except:
+    except IOError:
         print 'Can not create application !'
         raise
 
@@ -61,6 +82,12 @@ def migrate_cli():
 @migrate_cli.command()
 def migrate():
     """Migrate database schema"""
+    print 'Start migration'
+    require_artisan()
+    if not path.isdir('./src/Shared/Migration'):
+        print 'Please put your migration in src/Shared/Migration'
+        exit(1)
+    system('php artisan migrate:refresh --path=src/Shared/Migration --force')
 
 
 @group()
@@ -104,20 +131,6 @@ def doc_cli():
 @doc_cli.command()
 def doc():
     """Generate documentation with Swagger"""
-
-
-def require_composer():
-    if not path.isfile('./composer.json'):
-        print 'Error ! composer.json is missing.'
-        exit(1)
-    if not path.isdir(getcwd() + '/vendor'):
-        system('composer install')
-
-
-def require_bootstrap():
-    if not path.isfile('./src/Bootstrap.php'):
-        print 'Error ! src/Bootstrap.php is missing'
-        exit(1)
 
 
 @group()
