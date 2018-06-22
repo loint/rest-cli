@@ -21,6 +21,7 @@ script:
   - make test
   - rest create user
   - cd user
+  - ls -la
   - rest migrate
   - rest sync
   - rest api
