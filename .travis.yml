@@ -4,9 +4,10 @@ os:
 python:
   - 2.7
 services:
-  - docker
-before_install:
-  - docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=database mysql:5.6
+  - mysql
+before_script:
+  - mysql -e 'create database database;'"
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 install:
   - make
   - make install

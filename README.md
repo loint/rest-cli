@@ -9,7 +9,7 @@
 
 ### Installation
 ```
-make && sudo make install
+make && make install
 ```
 
 ### Road map
