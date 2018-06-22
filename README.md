@@ -1,5 +1,5 @@
 # Rest CLI
-[![Build Status](https://travis-ci.org/loint/rest.svg?branch=master)](https://travis-ci.org/loint/rest)
+[![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli)
 
 ### Prerequisite
 - [x] Python 2.7
