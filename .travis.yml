@@ -1,12 +1,12 @@
 language: python
 os:
   - linux
-  - osx
 python:
-  - "2.7"
+  - 2.7
 services:
-  - mysql
   - docker
+before_install:
+  - docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=database mysql:5.6
 install:
   - make
   - make install
