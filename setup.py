@@ -11,11 +11,11 @@ setup(
    version='0.0.1',
    author='Loi Nguyen',
    author_email='loinguyentrung@gmail.com',
-   description='A perfect tool for creating restful web services',
+   description='A perfect tool for creating restful web services in PHP',
    long_description=long_description,
    long_description_content_type="text/markdown",
    url="https://github.com/loint/rest-cli",
-   packages=find_packages(),
+   packages=find_packages(exclude=["*_test.py"]),
    classifiers=(
       "Programming Language :: Python :: 2",
       "License :: OSI Approved :: MIT License",

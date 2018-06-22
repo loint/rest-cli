@@ -1,3 +1,45 @@
+REST_TEMPLATE = """{
+  "rest": "{app_name}",
+  "name": "app",
+  "config" : "api",
+  "document": "public/docs/api.json",
+  "source": "src",
+  "test": "test",
+  "interface": "../interface/src",
+  "mysql": {
+    "host": "{host}",
+    "username": "{username}",
+    "password": "{password}",
+    "database": "{database}"
+  }
+}
+"""
+
+DATABASE_TEMPLATE = """<?php
+return [
+    'default' => 'mysql',
+    'migrations' => '_migrations',
+    'connections' => [
+        'mysql' => [
+            'read' => [
+                'host' => ['{host}'],
+            ],
+            'write' => [
+                'host' => ['{host}'],
+            ],
+            'sticky' => true,
+            'driver' => 'mysql',
+            'database' => '{database}',
+            'username' => '{username}',
+            'password' => '{password}',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+        ],
+    ]
+];
+"""
+
 MODEL_TEMPLATE = """
 <?php
 namespace App\Model;

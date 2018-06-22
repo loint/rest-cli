@@ -8,18 +8,18 @@ If you love ?
 
 Then this powerful tool is the right choice for you.
 
-### Features:
-- [x] Skeleton application is powered by Laravel Lumen
-- [x] You provide schema and route then "Rest" will do the "rest"
-
 ### Prerequisite
 - [x] Python 2.7 with pip
 - [x] PHP 7.2 with composer
 
 ### Installation
 ```
-pip install rest-cli
+$ pip install rest-cli
 ```
+
+### Features:
+- [x] Skeleton application is powered by Laravel Lumen
+- [x] You provide schema and route then "Rest" will do the "rest"
 
 ### Road map
 - [x] Create web service base on skeleton application
