@@ -1,4 +1,5 @@
-language: python
+sudo: required
+language: php
 os:
   - linux
 python:
@@ -12,7 +13,7 @@ before_script:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 install:
   - make
-  - make install
+  - sudo make install
 script:
   - make test
   - rest create user
