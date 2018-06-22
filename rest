@@ -100,11 +100,10 @@ def sync_cli():
     pass
 
 
-@sync_cli.command
+@sync_cli.command()
 def sync():
     """
-    Scan database schema and update structure
-    for models - repositories and services
+    Synchronize model - repository - service
     """
     print('Synchronizing schema structure')
     # generator = ModelGenerator()
