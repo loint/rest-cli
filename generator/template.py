@@ -47,6 +47,7 @@ MODEL_TEMPLATE = """
 <?php
 namespace App\Model;
 
+use Rest\Abstraction\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -107,7 +108,7 @@ REPOSITORY_INTERFACE_TEMPLATE = """
 <?php
 namespace App\Repository\{repository_name};
 
-use App\Common\Interfaces\Repository;
+use Rest\Abstraction\Repository;
 use App\Models\{model_name};
 
 /**
@@ -134,7 +135,6 @@ REPOSITORY_IMPLEMENTATION_TEMPLATE = """
 namespace App\Repository\{repository_name};
 
 use App\Models\{model_name};
-use Illuminate\Support\Facades\Cache;
 
 /**
  *  {repository_name_with_space} Implementation.

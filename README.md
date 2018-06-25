@@ -24,7 +24,7 @@ $ pip install rest-cli
 ### Road map
 - [x] Create web service base on skeleton application
 - [x] Database schema migration
-- [ ] Reverse schema to model - repository - service and DI
+- [x] Reverse schema to model - repository - service and DI
 - [x] Support annotation query
 - [ ] Compile routes and generate controller with test cases
 - [x] Serve and test application

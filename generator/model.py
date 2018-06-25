@@ -408,7 +408,8 @@ class ModelGenerator:
         })
         return constructor
 
-    def __generate_setter_getter(self, model_name, fields):
+    @staticmethod
+    def __generate_setter_getter(model_name, fields):
         """
         Generate setter and getter for models
 
@@ -611,7 +612,8 @@ class ModelGenerator:
         repository_implementation_file.write(repository_implementation_content)
         repository_implementation_file.close()
 
-    def get_repository_builtin_content(self, template, repository_name, model_name):
+    @staticmethod
+    def get_repository_builtin_content(template, repository_name, model_name):
         repository_name_with_space = Helper.convert_camel_to_description(repository_name)
         model_name_plural = model_name + 's'
         if model_name[-1:] == 'y':
@@ -825,4 +827,22 @@ class ModelGenerator:
                     repository_name + 'Impl',
                     model_name=model
                 )
+
+                # alias_methods = self.scan_repository_interface(repository_file_path)                #
+                #
+                # # Generate repository interfaces
+                # self.generate_service(
+                #     SERVICE_INTERFACE_BUILTIN_TEMPLATE,
+                #     repository_folder_path_each_model,
+                #     repository_name,
+                #     model_name=model
+                # )
+                # # Generate repository implementations
+                # self.generate_service(
+                #     REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE,
+                #     REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE,
+                #     repository_folder_path_each_model,
+                #     repository_name + 'Impl',
+                #     model_name=model
+                # )
         self.update_dependencies_to_bind(repositories + services)
