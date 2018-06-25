@@ -40,13 +40,9 @@ $ rest create user
 ```
 $ rest migrate
 ```
-3. Synchronous model - repository and service base on schema
+3. Synchronous schema and route with source code
 ```
 $ rest sync
-```
-4. Create some endpoints in /api then controller and integration test will be ready
-```
-$ rest api
 ```
 5. Generate Swagger documentation base
 ```

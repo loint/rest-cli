@@ -1,10 +1,12 @@
 import os
-from helper import Helper, MODEL_PATH, REPOSITORY_PATH, BIND_PATH
-from template import MODEL_TEMPLATE, MODEL_CONSTRUCTOR_TEMPLATE
+from helper import Helper
+from template import MODEL_TEMPLATE, MODEL_CONSTRUCTOR_TEMPLATE, SETTER_GETTER_TEMPLATE
 from template import REPOSITORY_IMPLEMENTATION_TEMPLATE
+from template import SERVICE_IMPLEMENTATION_TEMPLATE
 from template import REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE
 from template import REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE
 from template import REPOSITORY_INTERFACE_TEMPLATE
+from template import SERVICE_INTERFACE_TEMPLATE
 from template import REPOSITORY_INTERFACE_BUILTIN_TEMPLATE
 from template import REPOSITORY_INTERFACE_FILTER_TEMPLATE
 
@@ -138,27 +140,25 @@ class SchemaUtil:
         """
         if mysql_column_type == 'datetime':
             return '''
-            if (${camel_variable_name} === null) {
+            if (null === ${camel_variable_name}) {
                 $this->attributes[self::{constant_field_name}] = null;
             } else {
                 $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d H:i:s\');
             }'''
         if mysql_column_type == 'date':
-            return '''
-            if (${camel_variable_name} === null) {
+            return '''if (null === ${camel_variable_name}) {
                 $this->attributes[self::{constant_field_name}] = null;
             } else {
                 $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d\');
             }'''
         if php_property_type == 'float':
-            return '''
-            if (${camel_variable_name} === null) {
+            return '''if (null === ${camel_variable_name}) {
                 $this->attributes[self::{constant_field_name}] = null;
             } else {
                 $this->attributes[self::{constant_field_name}] = (float) ${camel_variable_name};
             }'''
         if php_property_type == 'int':
-            return '''if (${camel_variable_name} === null) {
+            return '''if (null === ${camel_variable_name}) {
                 $this->attributes[self::{constant_field_name}] = null;
             } else {
                 $this->attributes[self::{constant_field_name}] = (int) ${camel_variable_name};
@@ -202,14 +202,14 @@ class SchemaUtil:
             return $dateTimeObject;'''
         if php_property_type == 'float':
             return """$floatValue = $this->attributes[self::{constant_field_name}];
-            if ($floatValue === null) {
+            if (null === $floatValue) {
                 return null;
             }
     
             return (float) $this->attributes[self::{constant_field_name}];"""
         if php_property_type == 'int':
             return """$intValue = $this->attributes[self::{constant_field_name}];
-            if ($intValue === null) {
+            if (null === $intValue) {
                 return null;
             }
     
@@ -225,66 +225,19 @@ class ModelGenerator:
     automatically for models
     """
     _model_path = ''
-    _config_path = ''
+    _repository_path = ''
+    _service_path = ''
+    _controller_path = ''
     _bind_path = ''
+    _config_path = ''
     _identifier = ''
     _models = {}
     _tables = {}
     _config = {}
     _generated_model = ''
-    _setter_getter_template = '''
-    /**
-     * Constant for field `{field_name}`.
-     */
-    const {constant_field_name} = '{field_name}';
-
-    /**
-     * Set {method_name}
-     * This setter will set value for field `{field_name}`.
-     *
-     * @param {field_type} ${camel_variable_name}
-     *
-     * @return \App\Models\{table_name}
-     */
-    public function {setter_name}(${camel_variable_name})
-    {
-        {intercept_filter_set}
-
-        return $this;
-    }
-
-    /**
-     * Get {method_name}
-     * This getter will get value from field `{field_name}`.
-     *
-     * @return {field_type} || null
-     */
-    public function {getter_name}()
-    {
-        {intercept_filter_get}
-    }
-'''
 
     def __init__(self):
         pass
-
-    def set_model_path(self, model_path):
-        """
-        Model path is a place to put all models
-
-        :param model_path:
-        :return:
-        """
-        self._model_path = Helper.get_absolute_path_from_local_path(model_path)
-
-    def set_bind_path(self, bind_path):
-        """
-        Bind path as file path link to dependencies collection
-        Support automatically bind for new repository or service
-        :param bind_path:
-        :return:
-        """
-        self._bind_path = Helper.get_absolute_path_from_local_path(bind_path)
 
     def set_identifier(self, identifier):
         """
@@ -295,8 +248,22 @@ class ModelGenerator:
         """
         self._identifier = identifier
 
-    def set_generated_model(self, model_name):
-        self._generated_model = model_name
+    def config_paths(self):
+        require_folders = [
+            "src/Model",
+            "src/Repository",
+            "src/Service",
+            "src/Controller",
+            "src/Command"
+        ]
+        for require_folder in require_folders:
+            if not os.path.isdir(require_folder):
+                os.makedirs(require_folder)
+        self._model_path = Helper.get_absolute_path_from_local_path("src/Model")
+        self._repository_path = Helper.get_absolute_path_from_local_path("src/Repository")
+        self._service_path = Helper.get_absolute_path_from_local_path("src/Service")
+        self._controller_path = Helper.get_absolute_path_from_local_path("src/Controller")
+        self._bind_path = Helper.get_absolute_path_from_local_path("src/Dependencies.php")
 
     def get_tables(self):
         return self._tables
@@ -375,7 +342,6 @@ class ModelGenerator:
                 self._models[model_name] = {
                     'content': model_content,
                     'filters': annotations,
-                    'constants': annotations['@constants'],
                     'file_path': model_file_path
                 }
 
@@ -390,8 +356,8 @@ class ModelGenerator:
             if table_name.startswith('view'):
                 continue
             columns = Helper.execute_with_cursor(cursor, 'SHOW COLUMNS FROM ' + table_name + ';')
-            if table_name == 'users':
-                table_name = 'user'
+            if table_name == '_migrations':
+                continue
             self._tables[table_name] = []
             for column in columns:
                 column_name = column[0]
@@ -454,7 +420,7 @@ class ModelGenerator:
         for field in fields:
             camel_field_name = field['php_property_name']
             snake_field_name = Helper.camel_case_to_snake_case(camel_field_name)
-            field_set_get_content = self._setter_getter_template
+            field_set_get_content = SETTER_GETTER_TEMPLATE
             setter_name = camel_field_name
             getter_name = camel_field_name
             if setter_name.startswith('Is'):
@@ -499,7 +465,7 @@ class ModelGenerator:
         Create model for table if does not exist
         :param table_name:
         """
-        if table_name == 'migrations':
+        if table_name == '_migrations':
             return
         model_name = SchemaUtil.convert_table_to_camel_name(table_name)
         model_name_with_space = ' '.join(Helper.split_camel_case(model_name))
@@ -510,11 +476,11 @@ class ModelGenerator:
                 'table_name': table_name,
                 'model_name_with_space': model_name_with_space
             })
-            model_file_path = Helper.get_absolute_path_from_local_path(MODEL_PATH + '/' + model_name + '.php')
+            model_file_path = self._model_path + '/' + model_name + '.php'
             model = open(model_file_path, 'w')
             model.write(model_content)
             model.close()
-            print 'Created new model in ', model_file_path
+            print 'Created new model ', model_name
 
     def generate_models(self):
         """
@@ -563,6 +529,47 @@ class ModelGenerator:
                 if not consistent:
                     print 'Sorry, can not filter by column "' + model + '.' + filter_field + '" because it does not exist in database !'
                     exit(1)
+
+    def create_service_files(self, service_folder_path, service_name, model_name):
+        """
+        Create service files includes: interface and implementation
+
+        :param service_folder_path:
+        :param service_name:
+        :param model_name:
+        """
+        service_interface_file_path = Helper.get_absolute_path(
+            service_folder_path + '/' + service_name + '.php'
+        )
+        repository_implementation_file_path = Helper.get_absolute_path(
+            service_folder_path + '/' + service_name + 'Impl.php'
+        )
+        service_name_with_space = Helper.convert_camel_to_description(
+            service_name
+        )
+        service_interface_content = Helper.bind(
+            SERVICE_INTERFACE_TEMPLATE, {
+                'model_name': model_name,
+                'service_name': service_name,
+                'service_name_with_space': service_name_with_space
+            }
+        )
+        service_implementation_content = Helper.bind(
+            SERVICE_IMPLEMENTATION_TEMPLATE, {
+                'model_name': model_name,
+                'model_name_variable': model_name[0].lower() + model_name[1:],
+                'service_name': service_name,
+                'service_name_with_space': service_name_with_space
+            }
+        )
+        # Write interface file
+        service_interface_file = open(service_interface_file_path, "w")
+        service_interface_file.write(service_interface_content)
+        service_interface_file.close()
+        # Write implementation file
+        service_implementation_file = open(repository_implementation_file_path, "w")
+        service_implementation_file.write(service_implementation_content)
+        service_implementation_file.close()
 
     def create_repository_files(self, repository_folder_path, repository_name, model_name):
         """
@@ -745,7 +752,7 @@ class ModelGenerator:
                 repository_file.close()
                 print 'Generated repository:', repository_name
 
-    def update_repository_to_bind(self, repositories):
+    def update_dependencies_to_bind(self, dependencies):
         with open(self._bind_path, 'r') as stream:
             lines = stream.read().strip()
             bind_components = lines.split(self._identifier)
@@ -753,38 +760,55 @@ class ModelGenerator:
                 print 'Identifier not found in dependency list'
                 exit(1)
             else:
-                repository_classes = ''
-                for repository_class in repositories:
-                    repository_classes += '    ' + repository_class + ',\n'
+                dependency_classes = ''
+                for repository_class in dependencies:
+                    dependency_classes += '    ' + repository_class + ',\n'
                 bind_content = bind_components[0]
-                bind_content += self._identifier + '\n' + repository_classes + '\n];'
-                bind = open(Helper.get_absolute_path_from_local_path(BIND_PATH), 'w')
+                bind_content += self._identifier + '\n' + dependency_classes + '\n];'
+                bind = open(self._bind_path, 'w')
                 bind.write(bind_content)
                 bind.close()
 
     def generate_repositories(self):
         """
         Generate repositories
+        To make flexible repository in controller level without break the architecture
+        This method will generate same method in service layer as an alias
+        to implement 3 layer Controller -> Service -> Repository
+        if controller needs repository then they already had built-in service
         """
         repositories = []
+        services = []
         for model in self._models:
             table_name = Helper.camel_case_to_snake_case(model)
             if table_name not in self._tables:
                 print 'Table ', table_name, ' in database does not exist !'
                 exit(1)
             else:
-                repository_folder_path = Helper.get_absolute_path_from_local_path(REPOSITORY_PATH)
+                repository_folder_path = self._repository_path
+                service_folder_path = self._service_path
                 repository_name = model + 'Repository'
-                repositories.append('\App\Repositories\\' + repository_name + '\\' + repository_name + '::class')
+                service_name = model + 'Service'
+                repositories.append('\App\Repository\\' + repository_name + '\\' + repository_name + '::class')
+                services.append('\App\Service\\' + service_name + '\\' + service_name + '::class')
                 repository_folder_path_each_model = Helper.get_absolute_path(
                     repository_folder_path + '/' + repository_name)
+                service_folder_path_each_model = Helper.get_absolute_path(
+                    service_folder_path + '/' + service_name)
                 if not os.path.exists(repository_folder_path_each_model):
                     os.mkdir(repository_folder_path_each_model)
+                if not os.path.exists(service_folder_path_each_model):
+                    os.mkdir(service_folder_path_each_model)
                 repository_file_path = Helper.get_absolute_path(
                     repository_folder_path_each_model + '/' + repository_name + '.php')
+                service_file_path = Helper.get_absolute_path(
+                    service_folder_path_each_model + '/' + service_name + '.php')
                 if not os.path.exists(repository_file_path):
                     self.create_repository_files(repository_folder_path_each_model, repository_name, model_name=model)
                     print 'Generated repository: ', repository_name
+                if not os.path.exists(service_file_path):
+                    self.create_service_files(service_folder_path_each_model, service_name, model_name=model)
+                    print 'Generated service: ', service_name
                 # Generate repository interfaces
                 self.generate_repository(
                     REPOSITORY_INTERFACE_BUILTIN_TEMPLATE,
@@ -801,4 +825,4 @@ class ModelGenerator:
                     repository_name + 'Impl',
                     model_name=model
                 )
-        self.update_repository_to_bind(repositories)
+        self.update_dependencies_to_bind(repositories + services)

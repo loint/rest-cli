@@ -1,3 +1,6 @@
+
+__author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
+
 REST_TEMPLATE = """{
   "rest": "{app_name}",
   "name": "app",
@@ -59,7 +62,7 @@ use Illuminate\Support\Facades\DB;
 class {model_name} extends Model
 {
     /**
-     * Table name
+     * The table associated with the model.
      *
      * @var string
      */
@@ -80,7 +83,6 @@ class {model_name} extends Model
 """
 
 MODEL_CONSTRUCTOR_TEMPLATE = """
-    use \App\Common\Traits\ModelObservable;
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
     /**
@@ -99,8 +101,6 @@ MODEL_CONSTRUCTOR_TEMPLATE = """
         // Default values for model instance
 {default_setters}
     }
-
-
 """
 
 REPOSITORY_INTERFACE_TEMPLATE = """
@@ -155,21 +155,6 @@ class {repository_name}Impl implements {repository_name}
 """
 
 REPOSITORY_INTERFACE_BUILTIN_TEMPLATE = """
-    /**
-     * Store all records in memory
-     *
-     * @param array | bool $records
-     * @return void
-     */
-    public function storeInMemory($records = false);
-
-    /**
-     * Flush all records in memory
-     *
-     * @return void
-     */
-    public function flushMemory();
-
     /**
      * Get last record id of {model_name}.
      *
@@ -274,7 +259,7 @@ REPOSITORY_INTERFACE_BUILTIN_TEMPLATE = """
     /**
      * Delete all records.
      *
-     * @return void
+     * @return bool
      */
     public function deleteAll{model_name_plural}();
 
@@ -332,7 +317,7 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
     }
 
     /**
-     * Insert one record.
+     * Save one record.
      *
      * @param {model_name} $record
      *
@@ -341,7 +326,7 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
     public function save{model_name}($record)
     {
         $status = $record->save();
-        if ($status === false) {
+        if (false === $status) {
             return false;
         }
         return $record->getId();
@@ -406,7 +391,7 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
     public function delete{model_name}ById($id)
     {
         $object = $this->get{model_name}ById($id);
-        if ($object === null) {
+        if (null === $object) {
             // Can not delete undefined object
             return false;
         }
@@ -426,7 +411,7 @@ REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE = """
     public function forceDelete{model_name}ById($id)
     {
         $object = $this->get{model_name}ById($id);
-        if ($object === null) {
+        if (null === $object) {
             // Can not delete undefined object
             return false;
         }
@@ -498,3 +483,97 @@ REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE = """
 
         return $queryBuilder->{filter_name}({filter_arguments});
     }"""
+
+
+SERVICE_INTERFACE_TEMPLATE = """
+<?php
+namespace App\Service\{service_name};
+
+use Rest\Abstraction\Service;
+use App\Repository\{model_name}Repository;
+
+/**
+ * {service_name_with_space} Interface.
+ *
+ * @category  \App\Service
+ * @package   \App\Service\{service_name}
+ * @version    1.0
+ * @see       \App\Repository\{service_name}\{service_name}
+ * @since     File available since Release 1.0
+ */
+interface {service_name} extends Service
+{
+    // TODO - Your interfaces here
+
+    // AUTO GENERATED - DO NOT MODIFY FROM HERE
+    //*************************************************
+}
+
+"""
+
+SERVICE_IMPLEMENTATION_TEMPLATE = """
+<?php
+namespace App\Service\{service_name};
+
+use App\Repository\{model_name}Repository;
+
+/**
+ *  {service_name_with_space} Implementation.
+ *
+ * @category  \App\Service
+ * @package   \App\Service\{service_name}
+ * @version   1.0
+ * @see       \App\Service\{service_name}\{service_name}
+ * @since     File available since Release 1.0
+ */
+class {service_name}Impl implements {service_name}
+{
+    /**
+     * @var {model_name}Repository ${model_name_variable}Repository
+     */
+    private ${model_name_variable}Repository;
+    
+    public function __constructor({model_name}Repository ${model_name_variable}Repository)
+    {
+        $this->{model_name_variable}Repository = ${model_name_variable}Repository;
+    }   
+    
+    // TODO - Your implementations here
+
+    // AUTO GENERATED - DO NOT MODIFY FROM HERE
+    //*************************************************
+}
+"""
+
+SETTER_GETTER_TEMPLATE = """
+    /**
+     * Constant for field `{field_name}`.
+     */
+    const {constant_field_name} = '{field_name}';
+
+    /**
+     * Set {method_name}
+     * This setter will set value for field `{field_name}`.
+     *
+     * @param {field_type} ${camel_variable_name}
+     *
+     * @return \App\Models\{table_name}
+     */
+    public function {setter_name}(${camel_variable_name})
+    {
+        {intercept_filter_set}
+
+        return $this;
+    }
+
+    /**
+     * Get {method_name}
+     * This getter will get value from field `{field_name}`.
+     *
+     * @return {field_type} || null
+     */
+    public function {getter_name}()
+    {
+        {intercept_filter_get}
+    }
+"""

@@ -1,13 +1,9 @@
 import re
+import json
 import os.path
 import mysql.connector
 
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
-
-ENV_PATH = ".env"
-BIND_PATH = "config/bind.php"
-MODEL_PATH = "app/Models"
-REPOSITORY_PATH = "app/Repositories"
 
 
 class Helper:
@@ -82,7 +78,7 @@ class Helper:
         :param local_path:
         :return:
         """
-        absolute_path = Helper.get_absolute_path(__file__ + "/../../" + local_path)
+        absolute_path = Helper.get_absolute_path(os.getcwd() + "/" + local_path)
         return absolute_path
 
     @staticmethod
@@ -94,15 +90,12 @@ class Helper:
         :return: dict
         """
         config_file = Helper.get_absolute_path_from_local_path(config_file)
+        if not os.path.isfile(config_file):
+            print("Rest configuration does not exist !")
+            exit(1)
         config = {}
-        with open(config_file, 'r') as stream:
-            lines = stream.read()
-            key_value_pairs = lines.split('\n')
-            for key_value_pair in key_value_pairs:
-                if len(key_value_pair) > 0:
-                    pair = key_value_pair.split('=')
-                    if len(pair) == 2:
-                        config[pair[0]] = pair[1]
+        with open(config_file, 'r') as f:
+            config = json.load(f)
         return config
 
     @staticmethod
@@ -111,26 +104,26 @@ class Helper:
         Establish new connection to mysql
         :return: config, connection, cursor
         """
-        config = Helper.read_configuration(ENV_PATH)
-        db_host = 'localhost'
-        db_name = 'test'
+        config = Helper.read_configuration("./rest.json")
+        db_host = ''
+        db_name = ''
         db_username = ''
         db_password = ''
-        if config['DB_HOST']:
-            db_host = config['DB_HOST']
-        if config['DB_DATABASE']:
-            db_name = config['DB_DATABASE']
-        if config['DB_USERNAME']:
-            db_username = config['DB_USERNAME']
-        if config['DB_PASSWORD']:
-            db_password = config['DB_PASSWORD']
-        connection = mysql.connector.connect({
-            'user': db_username,
-            'password': db_password,
-            'host': db_host,
-            'database': db_name,
-            'raise_on_warnings': True,
-        })
+        if config['mysql']['host']:
+            db_host = config['mysql']['host']
+        if config['mysql']['database']:
+            db_name = config['mysql']['database']
+        if config['mysql']['username']:
+            db_username = config['mysql']['username']
+        if config['mysql']['database']:
+            db_password = config['mysql']['password']
+        connection = mysql.connector.connect(
+            user=db_username,
+            password=db_password,
+            host=db_host,
+            database=db_name,
+            raise_on_warnings=True
+        )
         cursor = connection.cursor()
         cursor.execute("USE `" + db_name + "`")
         return config, connection, cursor

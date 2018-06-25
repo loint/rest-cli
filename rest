@@ -52,14 +52,14 @@ def create(name, quite):
 
     # Require mysql parameters
     if not quite:
-        host = raw_input('Enter mysql host [localhost] :')
+        host = raw_input('Enter mysql host [127.0.0.1] :')
         username = raw_input('Enter mysql user [root] :')
         password = raw_input('Enter mysql password [password] : ')
         database = raw_input('Enter mysql database [database] : ')
 
     # Fill default value if user ignore them
     if len(host) == 0:
-        host = 'localhost'
+        host = '127.0.0.1'
     if len(username) == 0:
         username = 'root'
     if len(password) == 0:
@@ -68,19 +68,20 @@ def create(name, quite):
         database = 'database'
 
     # Generate rest.json
-    rest = REST_TEMPLATE
-    rest = rest.replace('{app_name}', name)
-    rest = rest.replace('{host}', host)
-    rest = rest.replace('{username}', username)
-    rest = rest.replace('{password}', password)
-    rest = rest.replace('{database}', database)
+    rest_content = REST_TEMPLATE
+    rest_content = rest_content.replace('{app_name}', name)
+    rest_content = rest_content.replace('{host}', host)
+    rest_content = rest_content.replace('{username}', username)
+    rest_content = rest_content.replace('{password}', password)
+    rest_content = rest_content.replace('{database}', database)
 
     # Generate config/database.php
-    database = DATABASE_TEMPLATE
-    database = database.replace('{host}', host)
-    database = database.replace('{username}', username)
-    database = database.replace('{password}', password)
-    database = database.replace('{database}', database)
+    database_content = DATABASE_TEMPLATE
+    database_content = database_content.replace('{host}', host)
+    database_content = database_content.replace('{username}', username)
+    database_content = database_content.replace('{password}', password)
+    database_content = database_content.replace('{database}', database)
+
     try:
         system('rm -rf user')
         system('rm -f app.zip')
@@ -90,10 +91,10 @@ def create(name, quite):
         system('rm -f app.zip')
         system('mv rest-skeleton-master ' + name)
         rest_file = open(name + '/rest.json', 'w')
-        rest_file.write(rest)
+        rest_file.write(rest_content)
         rest_file.close()
         database_file = open(name + '/config/database.php', 'w')
-        database_file.write(database)
+        database_file.write(database_content)
         database_file.close()
     except IOError:
         print('Can not create application !')
@@ -126,19 +127,24 @@ def sync_cli():
 @sync_cli.command()
 def sync():
     """
-    Synchronize model - repository - service
+    Synchronize model - repository - service - controller
     """
-    print('Synchronizing schema structure')
-    # generator = ModelGenerator()
-    # generator.set_model_path(MODEL_PATH)
-    # generator.set_bind_path(BIND_PATH)
-    # generator.set_identifier('//*************************************************')
-    # generator.scan_models()
-    # generator.scan_database()
-    # generator.generate_models()
-    # generator.scan_models()
-    # generator.scan_model_annotation()
-    # generator.generate_repositories()
+    print('Synchronizing schema ...')
+    generator = ModelGenerator()
+    generator.set_identifier('//*************************************************')
+    generator.config_paths()
+    # Overview scan and detect new schema
+    generator.scan_models()
+    generator.scan_database()
+    generator.generate_models()
+    # Scan annotation query
+    generator.scan_models()
+    generator.scan_model_annotation()
+    generator.generate_repositories()
+    # Full scan and fill missing parts
+    generator.scan_models()
+    generator.scan_database()
+    generator.generate_models()
 
 
 @group()
