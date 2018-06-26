@@ -9,6 +9,7 @@ If you love ?
 Then this powerful tool is the right choice for you.
 
 ### Prerequisite
+- [x] Docker
 - [x] Python 2.7 with pip
 - [x] PHP 7.2 with composer
 
@@ -17,13 +18,8 @@ Then this powerful tool is the right choice for you.
 $ pip install rest-cli
 ```
 
-### Features:
-- [x] Skeleton application is powered by Laravel Lumen
-- [x] Application components includes model, repository, service and controller
-- [x] You provide schemas and routes then "Rest" will do the "rest"
-
 ### Road map
-- [x] Create web service base on skeleton application
+- [x] Create web service base on a skeleton application
 - [x] Database schema migration
 - [x] Reverse schema to model - repository - service and dependency injectors
 - [x] Provides built-in query annotations
@@ -35,7 +31,9 @@ $ pip install rest-cli
 ### Usages (proposal)
 1. Create web service application
 ```
-$ rest create awesome-service
+$ rest create <awesome-service>
+[x] --quite : Quite mode - use default configuration without asking anything
+[x] --mysql : Run a default mysql container with default information
 ```
 2. Change directory to service and write some migrations at `src/Shared/Migration`
 ```

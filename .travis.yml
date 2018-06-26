@@ -24,6 +24,5 @@ script:
   - ls -la
   - rest migrate
   - rest sync
-  - rest api
   - rest doc
   - rest test

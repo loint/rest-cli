@@ -253,8 +253,7 @@ class ModelGenerator:
             "src/Model",
             "src/Repository",
             "src/Service",
-            "src/Controller",
-            "src/Command"
+            "src/Controller"
         ]
         for require_folder in require_folders:
             if not os.path.isdir(require_folder):
@@ -431,22 +430,28 @@ class ModelGenerator:
                 setter_name = 'set' + setter_name
                 getter_name = 'get' + getter_name
             # Bind template variables
-            field_set_get_content = field_set_get_content.replace('{intercept_filter_set}', SchemaUtil.intercept_filter_set(
-                php_model_name=model_name,
-                php_property_name=field['php_property_name'],
-                php_property_type=field['php_property_type'],
-                mysql_table_name=field['mysql_table_name'],
-                mysql_column_name=field['mysql_column_name'],
-                mysql_column_type=field['mysql_column_type']
-            ))
-            field_set_get_content = field_set_get_content.replace('{intercept_filter_get}', SchemaUtil.intercept_filter_get(
-                php_model_name=model_name,
-                php_property_name=field['php_property_name'],
-                php_property_type=field['php_property_type'],
-                mysql_table_name=field['mysql_table_name'],
-                mysql_column_name=field['mysql_column_name'],
-                mysql_column_type=field['mysql_column_type']
-            ))
+            field_set_get_content = field_set_get_content.replace(
+                '{intercept_filter_set}',
+                SchemaUtil.intercept_filter_set(
+                    php_model_name=model_name,
+                    php_property_name=field['php_property_name'],
+                    php_property_type=field['php_property_type'],
+                    mysql_table_name=field['mysql_table_name'],
+                    mysql_column_name=field['mysql_column_name'],
+                    mysql_column_type=field['mysql_column_type']
+                )
+            )
+            field_set_get_content = field_set_get_content.replace(
+                '{intercept_filter_get}',
+                SchemaUtil.intercept_filter_get(
+                    php_model_name=model_name,
+                    php_property_name=field['php_property_name'],
+                    php_property_type=field['php_property_type'],
+                    mysql_table_name=field['mysql_table_name'],
+                    mysql_column_name=field['mysql_column_name'],
+                    mysql_column_type=field['mysql_column_type']
+                )
+            )
             field_set_get_content = Helper.bind(field_set_get_content, {
                 'table_name': model_name,
                 'field_name': field['mysql_column_name'],
@@ -528,10 +533,12 @@ class ModelGenerator:
                         consistent = True
                         break
                 if not consistent:
-                    print 'Sorry, can not filter by column "' + model + '.' + filter_field + '" because it does not exist in database !'
+                    print 'Sorry, can not filter by column "' + model + '.' + filter_field \
+                          + '" because it does not exist in database !'
                     exit(1)
 
-    def create_service_files(self, service_folder_path, service_name, model_name):
+    @staticmethod
+    def create_service_files(service_folder_path, service_name, model_name):
         """
         Create service files includes: interface and implementation
 
@@ -572,7 +579,8 @@ class ModelGenerator:
         service_implementation_file.write(service_implementation_content)
         service_implementation_file.close()
 
-    def create_repository_files(self, repository_folder_path, repository_name, model_name):
+    @staticmethod
+    def create_repository_files(repository_folder_path, repository_name, model_name):
         """
         Create repository files includes: interface and implementation
 
