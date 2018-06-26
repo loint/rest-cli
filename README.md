@@ -30,10 +30,10 @@ $ pip install rest-cli
 
 ### Usages (proposal)
 1. Create web service application
+- [x] --quite : Quite mode - use default configuration without asking anything
+- [x] --mysql : Run a default mysql container with default information
 ```
 $ rest create <awesome-service>
-[x] --quite : Quite mode - use default configuration without asking anything
-[x] --mysql : Run a default mysql container with default information
 ```
 2. Change directory to service and write some migrations at `src/Shared/Migration`
 ```
