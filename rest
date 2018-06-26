@@ -148,17 +148,6 @@ def sync():
 
 
 @group()
-def api_cli():
-    pass
-
-
-@api_cli.command()
-def api():
-    """Compile routes to controllers and test cases"""
-    print('Compile routes and generate controller')
-
-
-@group()
 def doc_cli():
     pass
 

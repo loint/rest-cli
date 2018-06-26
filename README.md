@@ -19,44 +19,50 @@ $ pip install rest-cli
 
 ### Features:
 - [x] Skeleton application is powered by Laravel Lumen
-- [x] You provide schema and route then "Rest" will do the "rest"
+- [x] Application components includes model, repository, service and controller
+- [x] You provide schemas and routes then "Rest" will do the "rest"
 
 ### Road map
 - [x] Create web service base on skeleton application
 - [x] Database schema migration
-- [x] Reverse schema to model - repository - service and DI
-- [x] Support annotation query
-- [ ] Compile routes and generate controller with test cases
+- [x] Reverse schema to model - repository - service and dependency injectors
+- [x] Provides built-in query annotations
+- [ ] Compile api routes and generate controller with test cases
 - [x] Serve and test application
 - [ ] Generate swagger documentation base on routes
 - [ ] Generate micro-service interfaces for inter-communication
 
-### Usages (Proposal)
+### Usages (proposal)
 1. Create web service application
 ```
-$ rest create user
+$ rest create awesome-service
 ```
-2. Enter user service and write some migrations and up them with
+2. Change directory to service and write some migrations at `src/Shared/Migration`
 ```
 $ rest migrate
 ```
-3. Synchronous schema and route with source code
+3. Synchronize model - repository - service - controller - test
+To create some awesome apis, modify your routes at `config/api`
 ```
 $ rest sync
 ```
-5. Generate Swagger documentation base
+4. Update Swagger API documentation base on api routes
 ```
 $ rest doc
 ```
-6. Serve your application to test in browser with
+5. Serve your application to test in browser
 ```
 $ rest serve
+```
+6. Test your application with PHPUnit
+```
+$ rest test
 ```
 7. Check current version
 ```
 $ rest version
 ```
-8. Automatically updates
+8. Update new version of rest-cli ?
 ```
 $ rest upgrade
 ```
