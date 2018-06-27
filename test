@@ -5,4 +5,4 @@ cd user
 rest migrate
 rest sync
 rest test
-cd ..
+#cd ..

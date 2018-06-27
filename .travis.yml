@@ -19,10 +19,3 @@ install:
   - sudo make install
 script:
   - make test
-  - rest create user --quite
-  - cd user
-  - ls -la
-  - rest migrate
-  - rest sync
-  - rest doc
-  - rest test
