@@ -14,8 +14,5 @@ services:
 before_script:
   - mysql -e 'create database `database`;'
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-install:
-  - make
-  - sudo make install
 script:
   - make test

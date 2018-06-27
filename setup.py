@@ -23,10 +23,12 @@ setup(
    ),
    install_requires=[
       'pytest',
+      'pytest-dependency',
       'click',
       'mysql-connector-python'
    ],
    scripts=[
       'rest'
-   ]
+   ],
+   zip_safe=True
 )

@@ -7,10 +7,10 @@ install:
 	python setup.py install
 
 test:
-	pytest
+	pytest -vx
 
 clean:
-	rm -rf rest.egg-info
+	rm -rf rest_cli.egg-info
 	rm -rf build
 	rm -rf dist
 	rm -rf .pytest_cache
