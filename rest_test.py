@@ -42,7 +42,7 @@ class TestRestCLI:
 
     @mark.dependency()
     def test_rest_create(self):
-        self.install()
+        # self.install()
         system('rest create user --quite --force --mysql')
         self.assert_new_application()
 
