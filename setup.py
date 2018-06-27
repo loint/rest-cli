@@ -29,6 +29,5 @@ setup(
    ],
    scripts=[
       'rest'
-   ],
-   zip_safe=True
+   ]
 )
