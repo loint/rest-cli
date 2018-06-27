@@ -21,7 +21,7 @@ class TestRestCLI:
         assert path.isfile('user/config/database.php') is True
 
     @staticmethod
-    def assert_structure():
+    def assert_sync_structure():
         # Assert application structure
         assert path.isdir('vendor') is True
         assert path.isdir('src/Model') is True
@@ -55,6 +55,6 @@ class TestRestCLI:
     @mark.dependency(depends=["TestRestCLI::test_rest_migration"])
     def test_rest_synchronization(self):
         system('rest sync')
-        self.assert_structure()
+        self.assert_sync_structure()
 
 
