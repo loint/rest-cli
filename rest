@@ -133,7 +133,7 @@ def sync_cli():
 def sync_schemas():
     print('Synchronizing schema ...')
     generator = ModelGenerator()
-    generator.set_identifier('//*************************************************')
+    generator.set_identifier('// AUTO GENERATED - DO NOT MODIFY FROM HERE')
     generator.config_paths()
     # Overview scan and detect new schema
     generator.scan_models()
@@ -151,7 +151,7 @@ def sync_schemas():
 
 def sync_routes():
     print('Synchronizing routes ...')
-    pass
+    system('php route.php')
 
 
 @sync_cli.command()

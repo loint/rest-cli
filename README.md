@@ -1,10 +1,11 @@
 # Rest CLI
-[![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli) [![PyPI version](https://badge.fury.io/py/rest-cli.svg)](https://badge.fury.io/py/rest-cli)
+[![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli) [![PyPI version](https://badge.fury.io/py/rest-cli.svg)](https://badge.fury.io/py/rest-cli)[![Documentation](https://img.shields.io/badge/documentation-rest-ff69b4.svg)](https://loint.github.io/rest-cli/index.md)
 
 If you love ?
 - Beautiful restful web service with standard architecture
 - The fastest way to get things done with less human manipulation
-- Easy way to scale to hundred units as micro-services ?
+- Easy way to initialize hundred units in minutes
+- Well tested structure with maintainable like Java with the flexible from PHP
 
 Then this powerful tool is the right choice for you.
 
@@ -23,7 +24,7 @@ $ pip install rest-cli
 - [x] Database schema migration
 - [x] Reverse schema to model - repository - service and dependency injectors
 - [x] Provides built-in query annotations
-- [ ] Compile api routes and generate controller with test cases
+- [x] Compile api routes and generate controller with test cases
 - [x] Serve and test application
 - [ ] Generate swagger documentation base on routes
 - [ ] Generate micro-service interfaces for inter-communication
@@ -40,7 +41,7 @@ $ rest create <awesome-service>
 $ rest migrate
 ```
 3. Synchronize model - repository - service - controller - test
-To create some awesome apis, modify your routes at `config/api`
+- To create some awesome apis, modify your routes at `config/api`
 ```
 $ rest sync
 ```

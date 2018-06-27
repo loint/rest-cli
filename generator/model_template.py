@@ -79,7 +79,6 @@ class {model_name} extends Model
     // TODO - Model relationships here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
-    //*************************************************
 }
 """
 
@@ -125,7 +124,6 @@ interface {repository_name} extends Repository
     // TODO - Your interfaces here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
-    //*************************************************
 }
 
 """
@@ -150,7 +148,6 @@ class {repository_name}Impl implements {repository_name}
     // TODO - Your implementations here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
-    //*************************************************
 }
 """
 
@@ -506,7 +503,6 @@ interface {service_name} extends Service
     // TODO - Your interfaces here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
-    //*************************************************
 }
 
 """
@@ -541,7 +537,6 @@ class {service_name}Impl implements {service_name}
     // TODO - Your implementations here
 
     // AUTO GENERATED - DO NOT MODIFY FROM HERE
-    //*************************************************
 }
 """
 
