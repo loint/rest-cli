@@ -57,7 +57,6 @@ use Illuminate\Support\Facades\DB;
  * @category   \App
  * @package    \App\Model
  * @version    1.0
- * @see        \Illuminate\Foundation\Auth\User
  * @since      File available since Release 1.0
  */
 class {model_name} extends Model
@@ -108,7 +107,7 @@ REPOSITORY_INTERFACE_TEMPLATE = """
 namespace App\Repository\{repository_name};
 
 use Rest\Abstraction\Repository;
-use App\Models\{model_name};
+use App\Model\{model_name};
 
 /**
  *  {repository_name_with_space} Interface.
@@ -132,7 +131,7 @@ REPOSITORY_IMPLEMENTATION_TEMPLATE = """
 <?php
 namespace App\Repository\{repository_name};
 
-use App\Models\{model_name};
+use App\Model\{model_name};
 
 /**
  *  {repository_name_with_space} Implementation.
@@ -140,7 +139,7 @@ use App\Models\{model_name};
  * @category  \App\Repository
  * @package   \App\Repository\{repository_name}
  * @version    1.0
- * @see         \App\Repository\{repository_name}\{repository_name}
+ * @see       \App\Repository\{repository_name}\{repository_name}
  * @since     File available since Release 1.0
  */
 class {repository_name}Impl implements {repository_name}
@@ -552,7 +551,7 @@ SETTER_GETTER_TEMPLATE = """
      *
      * @param {field_type} ${camel_variable_name}
      *
-     * @return \App\Models\{table_name}
+     * @return \App\Model\{table_name}
      */
     public function {setter_name}(${camel_variable_name})
     {
