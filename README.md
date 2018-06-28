@@ -78,10 +78,12 @@ $ rest --help
 ```
 ### API Documentation
 After `rest sync` you can serve your service with `rest serve`
+
 Swagger Documentation should be ready at [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ### License
 Rest CLI and related projects are licensed under the [MIT](LICENSE)
+
 Thanks for the sponsor from [GO1 Company](http://go1.com)
 
-Happy Coding
+~ Happy Coding ~
