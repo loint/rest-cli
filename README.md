@@ -51,27 +51,23 @@ $ rest sync
 ```
 $ rest route
 ```
-5. Update Swagger API documentation base on api routes
-```
-$ rest doc
-```
-6. Serve your application to test in browser
+5. Serve your application to test in browser
 ```
 $ rest serve
 ```
-7. Test your application with PHPUnit
+6. Test your application with PHPUnit
 ```
 $ rest test
 ```
-8. Check current version
+7. Check current version
 ```
 $ rest version
 ```
-9. Update new version of rest-cli ?
+8. Update new version of rest-cli ?
 ```
 $ rest upgrade
 ```
-10. Need more help ?
+9. Need more help ?
 ```
 $ rest --help
 ```
