@@ -4,6 +4,7 @@ from os import path, system, getcwd, remove
 from click import group, option, argument, CommandCollection
 from generator import *
 from urllib import urlretrieve
+import re
 
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
@@ -42,6 +43,10 @@ def create_cli():
 @option('--mysql', is_flag=True, default=False)
 @argument('name')
 def create(name, quite, force, mysql):
+    name_pattern = re.compile("^[a-z-]+$")
+    if not name_pattern.match(name):
+        print('Sorry ! Only lower case and hyphen are allowed . Please try again')
+        exit(1)
     """ If your machine does not have MySQL then it will up for you """
     if mysql:
         print('Preparing MySQL ...')
