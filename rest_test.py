@@ -42,7 +42,6 @@ class TestRestCLI:
 
     @mark.dependency()
     def test_rest_create(self):
-        # self.install()
         system('rest create user --quite --force --mysql')
         self.assert_new_application()
 
@@ -56,8 +55,6 @@ class TestRestCLI:
     def test_rest_synchronization(self):
         system('rest sync')
         self.assert_sync_structure()
+        chdir('../')
 
-    @mark.dependency(depends=["TestRestCLI::test_rest_synchronization"])
-    def test_rest_route_list(self):
-        system('rest route')
 
