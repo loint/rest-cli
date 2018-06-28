@@ -20,20 +20,21 @@ $ pip install rest-cli
 ```
 
 ### Road map
-- [x] Create web service base on a skeleton application
+- [x] Create web service base on a lightweight skeleton
 - [x] Database schema migration
 - [x] Reverse schema to model - repository - service and dependency injectors
-- [x] Provides built-in query annotations
-- [x] Compile api routes and generate controller with test cases
+- [x] Support built-in query annotations
+- [x] Compile api routes and generate controller with integration tests
 - [x] Serve and test application
-- [ ] Generate swagger documentation base on routes
-- [ ] Generate micro-service interfaces for inter-communication
+- [ ] Generate swagger documentation base on api routes
+- [ ] Export micro-service interfaces for inter-communication in SOA
+- [ ] Support RPC exception via response verification
 
-### Usages (proposal)
+### Usages
 1. Create web service application
-- [x] --quite : Quite mode - use default configuration without asking anything
-- [x] --force : Force creating application without asking about existing project
-- [x] --mysql : Run a default mysql container with default information
+- [x] --quite : Quite mode without asking anything about configuration
+- [x] --force : Force creating application without complaining about existing project
+- [x] --mysql : Start a mysql container with default information
 ```
 $ rest create <awesome-service>
 ```
