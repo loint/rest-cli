@@ -10,9 +10,9 @@ If you love ?
 Then this powerful tool is the right choice for you.
 
 ### Prerequisite
-- [x] Docker
-- [x] Python 2.7 with pip
-- [x] PHP 7.2 with composer
+- Docker
+- Python 2.7 with pip
+- PHP 7.2 with composer
 
 ### Installation
 ```
@@ -32,9 +32,9 @@ $ pip install rest-cli
 
 ### Usages
 1. Create web service application
-- [x] --quite : Quite mode without asking anything about configuration
-- [x] --force : Force creating application without complaining about existing project
-- [x] --mysql : Start a mysql container with default information
+- --quite : Quite mode without asking anything about configuration
+- --force : Force creating application without complaining about existing project
+- --mysql : Start a mysql container with default information
 ```
 $ rest create <awesome-service>
 ```
