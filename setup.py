@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
    name='rest-cli',
-   version='0.0.2',
+   version='0.0.3',
    author='Loi Nguyen',
    author_email='loinguyentrung@gmail.com',
    description='A perfect tool for creating Restful web service in PHP',

@@ -230,7 +230,7 @@ def upgrade_cli():
 
 @upgrade_cli.command()
 def upgrade():
-    """Upgrade rest command to latest version"""
+    """Upgrade rest application to latest patches"""
     print('Coming soon !')
 
 

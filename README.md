@@ -1,5 +1,7 @@
-# Rest CLI (technical preview)
+# Rest CLI
 [![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli) [![PyPI version](https://badge.fury.io/py/rest-cli.svg)](https://badge.fury.io/py/rest-cli) [![Documentation](https://img.shields.io/badge/documentation-rest-ff69b4.svg)](https://loint.github.io/rest-cli/index.md)
+
+![Rest](docs/rest.jpg)
 
 If you love ?
 - Beautiful restful web service with standard architecture
@@ -26,11 +28,10 @@ $ pip install rest-cli
 - [x] Support built-in query annotations
 - [x] Compile api routes and generate controller with integration tests
 - [x] Serve and test application
-- [ ] Support response header
-- [ ] Type casting for complex Request & Response
-- [ ] Generate swagger documentation base on api routes (in-progress)
+- [x] Generate swagger documentation base on api routes (in-progress)
+- [ ] Support response header & type casting for complex Request
 - [ ] Support Service - Repository symbolic link to comply top down architecture
-- [ ] Export service interfaces for inter-communication in SOA
+- [ ] Export service interfaces for inter-communication
 - [ ] Support RPC exception via response verification
 
 ### Usages
@@ -75,3 +76,11 @@ $ rest upgrade
 ```
 $ rest --help
 ```
+### API Documentation
+After `rest sync` you can serve your service with `rest serve`
+Swagger Documentation should be ready at [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### License
+Thanks for the sponsor from [GO1](http://go1.com) company.
+
+Happy Coding
