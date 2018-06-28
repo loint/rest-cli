@@ -399,7 +399,7 @@ class ModelGenerator:
                 default_value = '"{}"'
             if constant_name.upper() is 'id':
                 default_value = 'null'
-            default_setters += '        $this->attributes[self::' + constant_name + '] = ' + str(default_value) + ';\n';
+            default_setters += '        $this->attributes[self::' + constant_name + '] = ' + str(default_value) + ';\n'
 
         constructor = Helper.bind(MODEL_CONSTRUCTOR_TEMPLATE, {
             'default_setters': default_setters,

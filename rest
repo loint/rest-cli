@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from os import path, system, getcwd
+from os import path, system, getcwd, remove
 from click import group, option, argument, CommandCollection
 from generator import *
 from urllib import urlretrieve
@@ -126,11 +126,6 @@ def migrate():
     system('php artisan migrate:refresh --path=src/Shared/Migration --force')
 
 
-@group()
-def sync_cli():
-    pass
-
-
 def sync_schemas():
     print('Synchronizing schema ...')
     generator = ModelGenerator()
@@ -155,6 +150,11 @@ def sync_routes():
     system('php route.php')
 
 
+@group()
+def sync_cli():
+    pass
+
+
 @sync_cli.command()
 def sync():
     """
@@ -162,6 +162,19 @@ def sync():
     """
     sync_schemas()
     sync_routes()
+
+
+@group()
+def route_cli():
+    pass
+
+
+@route_cli.command()
+def route():
+    """
+    Synchronize schema and api route
+    """
+    system('php artisan route:list')
 
 
 @group()
@@ -197,7 +210,13 @@ def test():
     """Run test cases with PHPUnit"""
     require_composer()
     require_bootstrap()
-    system('php ./vendor/phpunit/phpunit/phpunit --bootstrap src/Bootstrap.php -c phpunit.xml')
+    log_file = 'storage/logs/lumen.log'
+    if path.isdir(log_file):
+        remove(log_file)
+    system('php ./vendor/phpunit/phpunit/phpunit --bootstrap src/Bootstrap.php -c phpunit.xml --testdox')
+    if path.isfile(log_file):
+        with open(log_file, 'r') as log_content:
+            print log_content.read()
 
 
 @group()
@@ -224,6 +243,7 @@ cli = CommandCollection(sources=[
     create_cli,
     migrate_cli,
     sync_cli,
+    route_cli,
     doc_cli,
     serve_cli,
     test_cli,

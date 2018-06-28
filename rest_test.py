@@ -57,4 +57,7 @@ class TestRestCLI:
         system('rest sync')
         self.assert_sync_structure()
 
+    @mark.dependency(depends=["TestRestCLI::test_rest_synchronization"])
+    def test_rest_route_list(self):
+        system('rest route')
 

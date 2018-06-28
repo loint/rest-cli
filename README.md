@@ -46,27 +46,32 @@ $ rest migrate
 ```
 $ rest sync
 ```
-4. Update Swagger API documentation base on api routes
+4. View route list
+- To see how many route are configured and manage apis
+```
+$ rest routes
+```
+5. Update Swagger API documentation base on api routes
 ```
 $ rest doc
 ```
-5. Serve your application to test in browser
+6. Serve your application to test in browser
 ```
 $ rest serve
 ```
-6. Test your application with PHPUnit
+7. Test your application with PHPUnit
 ```
 $ rest test
 ```
-7. Check current version
+8. Check current version
 ```
 $ rest version
 ```
-8. Update new version of rest-cli ?
+9. Update new version of rest-cli ?
 ```
 $ rest upgrade
 ```
-9. Need more help ?
+10. Need more help ?
 ```
 $ rest --help
 ```

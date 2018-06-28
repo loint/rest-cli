@@ -4,5 +4,6 @@ rest create user --mysql
 cd user
 rest migrate
 rest sync
+rest route
 rest test
 #cd ..
