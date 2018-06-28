@@ -26,9 +26,11 @@ $ pip install rest-cli
 - [x] Support built-in query annotations
 - [x] Compile api routes and generate controller with integration tests
 - [x] Serve and test application
-- [ ] Generate swagger documentation base on api routes
+- [ ] Support response header
+- [ ] Type casting for complex Request & Response
+- [ ] Generate swagger documentation base on api routes (in-progress)
 - [ ] Support Service - Repository symbolic link to comply top down architecture
-- [ ] Export micro-service interfaces for inter-communication in SOA
+- [ ] Export service interfaces for inter-communication in SOA
 - [ ] Support RPC exception via response verification
 
 ### Usages
@@ -44,7 +46,7 @@ $ rest create <awesome-service>
 $ rest migrate
 ```
 3. Synchronize model - repository - service - controller - test cases
-- To create some awesome apis, modify your routes at `config/api`
+- To create some awesome apis, update your routes at `config/api/*.json`
 ```
 $ rest sync
 ```
