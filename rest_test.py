@@ -39,6 +39,8 @@ class TestRestCLI:
         assert path.isfile('src/Controller/UserController.php') is True
         assert path.isdir('src/Shared/IO/UserController') is True
         assert path.isfile('test/Controller/UserControllerTest.php') is True
+        # Assert swagger data
+        assert path.isfile('public/docs/api.json') is True
 
     @mark.dependency()
     def test_rest_create(self):
