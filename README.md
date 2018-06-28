@@ -49,7 +49,7 @@ $ rest sync
 4. View route list
 - To see how many route are configured and manage apis
 ```
-$ rest routes
+$ rest route
 ```
 5. Update Swagger API documentation base on api routes
 ```

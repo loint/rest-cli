@@ -145,8 +145,7 @@ def sync_schemas():
     generator.generate_models()
 
 
-def sync_routes():
-    print('Synchronizing routes ...')
+def sync_routes_docs():
     system('php route.php')
 
 
@@ -161,7 +160,7 @@ def sync():
     Synchronize schema and api routes
     """
     sync_schemas()
-    sync_routes()
+    sync_routes_docs()
 
 
 @group()
@@ -175,17 +174,6 @@ def route():
     Synchronize schema and api route
     """
     system('php artisan route:list')
-
-
-@group()
-def doc_cli():
-    pass
-
-
-@doc_cli.command()
-def doc():
-    """Generate documentation with Swagger"""
-    print('')
 
 
 @group()
@@ -227,6 +215,7 @@ def version_cli():
 @version_cli.command()
 def version():
     """Check current version"""
+    print('Coming soon !')
 
 
 @group()
@@ -237,6 +226,7 @@ def upgrade_cli():
 @upgrade_cli.command()
 def upgrade():
     """Upgrade rest command to latest version"""
+    print('Coming soon !')
 
 
 cli = CommandCollection(sources=[
@@ -244,7 +234,6 @@ cli = CommandCollection(sources=[
     migrate_cli,
     sync_cli,
     route_cli,
-    doc_cli,
     serve_cli,
     test_cli,
     version_cli,
