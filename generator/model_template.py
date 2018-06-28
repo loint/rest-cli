@@ -47,12 +47,10 @@ MODEL_TEMPLATE = """
 <?php
 namespace App\Model;
 
-use Rest\Abstraction\Model;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 /**
- *  {model_name_with_space}
+ * {model_name_with_space}
  *
  * @category   \App
  * @package    \App\Model
@@ -106,7 +104,6 @@ REPOSITORY_INTERFACE_TEMPLATE = """
 <?php
 namespace App\Repository\{repository_name};
 
-use Rest\Abstraction\Repository;
 use App\Model\{model_name};
 
 /**
@@ -118,7 +115,7 @@ use App\Model\{model_name};
  * @see       \App\Repository\{repository_name}\{repository_name}
  * @since     File available since Release 1.0
  */
-interface {repository_name} extends Repository
+interface {repository_name}
 {
     // TODO - Your interfaces here
 
@@ -485,19 +482,15 @@ SERVICE_INTERFACE_TEMPLATE = """
 <?php
 namespace App\Service\{service_name};
 
-use Rest\Abstraction\Service;
-use App\Repository\{model_name}Repository;
-
 /**
  * {service_name_with_space} Interface.
  *
  * @category  \App\Service
  * @package   \App\Service\{service_name}
  * @version    1.0
- * @see       \App\Repository\{service_name}\{service_name}
  * @since     File available since Release 1.0
  */
-interface {service_name} extends Service
+interface {service_name}
 {
     // TODO - Your interfaces here
 
@@ -510,10 +503,10 @@ SERVICE_IMPLEMENTATION_TEMPLATE = """
 <?php
 namespace App\Service\{service_name};
 
-use App\Repository\{model_name}Repository;
+use App\Repository\{model_name}Repository\{model_name}Repository;
 
 /**
- *  {service_name_with_space} Implementation.
+ * {service_name_with_space} Implementation.
  *
  * @category  \App\Service
  * @package   \App\Service\{service_name}

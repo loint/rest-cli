@@ -27,6 +27,7 @@ $ pip install rest-cli
 - [x] Compile api routes and generate controller with integration tests
 - [x] Serve and test application
 - [ ] Generate swagger documentation base on api routes
+- [ ] Support Service alias Repository to comply top down architecture
 - [ ] Export micro-service interfaces for inter-communication in SOA
 - [ ] Support RPC exception via response verification
 
