@@ -42,13 +42,13 @@ $ rest create <awesome-service>
 ```
 $ rest migrate
 ```
-3. Synchronize model - repository - service - controller - test
+3. Synchronize model - repository - service - controller - test cases
 - To create some awesome apis, modify your routes at `config/api`
 ```
 $ rest sync
 ```
 4. View route list
-- To see how many route are configured and manage apis
+- To see which routes are configured and manage apis
 ```
 $ rest route
 ```
