@@ -1,12 +1,12 @@
 # Rest CLI [![Build Status](https://travis-ci.org/loint/rest-cli.svg?branch=master)](https://travis-ci.org/loint/rest-cli) [![PyPI version](https://badge.fury.io/py/rest-cli.svg)](https://badge.fury.io/py/rest-cli) [![Documentation](https://img.shields.io/badge/documentation-rest-ff69b4.svg)](https://loint.github.io/rest-cli/index.md)
 
-<img src="docs/rest.jpg" width=150 align=right>
+<img src="docs/rest.jpg" width=250 align=right>
 
 If you love ?
-- Beautiful restful web service with *standard* architecture
-- The *fastest* way to get things done with less human
-- Easy way to *synchronize* from components to documentation
-- Well tested structure with *explicit* request - response
+- Beautiful restful web service with **standard** architecture
+- The **fastest** way to get things done with less human
+- Easy way to **synchronize* from components to documentation
+- Well tested structure with **explicit** request - response
 
 Then this powerful tool is the right choice for you.
 
