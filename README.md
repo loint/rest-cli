@@ -4,9 +4,10 @@
 
 If you love ?
 - Beautiful restful web service with **standard** architecture
-- The **fastest** way to get things done with less human
+- The **fastest** way to get things done with less human coding
 - Easy way to **synchronize** from components to documentation
-- Well tested structure with **explicit** request - response
+- Well tested structure with **explicit** request & response
+- Powered by an **industrial** framework with outstanding performance
 
 Then this powerful tool is the right choice for you.
 
