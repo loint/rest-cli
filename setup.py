@@ -8,10 +8,10 @@ with open("README.md", "r") as fh:
 
 setup(
    name='rest-cli',
-   version='0.0.1',
+   version='0.0.2',
    author='Loi Nguyen',
    author_email='loinguyentrung@gmail.com',
-   description='A perfect tool for creating restful web services in PHP',
+   description='A perfect tool for creating Restful web service in PHP',
    long_description=long_description,
    long_description_content_type="text/markdown",
    url="https://github.com/loint/rest-cli",
