@@ -139,30 +139,29 @@ class SchemaUtil:
         :return: string
         """
         if mysql_column_type == 'datetime':
-            return '''
-            if (null === ${camel_variable_name}) {
-                $this->attributes[self::{constant_field_name}] = null;
-            } else {
-                $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d H:i:s\');
-            }'''
+            return '''if (null === ${camel_variable_name}) {
+            $this->attributes[self::{constant_field_name}] = null;
+        } else {
+            $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d H:i:s\');
+        }'''
         if mysql_column_type == 'date':
             return '''if (null === ${camel_variable_name}) {
-                $this->attributes[self::{constant_field_name}] = null;
-            } else {
-                $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d\');
-            }'''
+            $this->attributes[self::{constant_field_name}] = null;
+        } else {
+            $this->attributes[self::{constant_field_name}] = ${camel_variable_name}->format(\'Y-m-d\');
+        }'''
         if php_property_type == 'float':
             return '''if (null === ${camel_variable_name}) {
-                $this->attributes[self::{constant_field_name}] = null;
-            } else {
-                $this->attributes[self::{constant_field_name}] = (float) ${camel_variable_name};
-            }'''
+            $this->attributes[self::{constant_field_name}] = null;
+        } else {
+            $this->attributes[self::{constant_field_name}] = (float) ${camel_variable_name};
+        }'''
         if php_property_type == 'int':
             return '''if (null === ${camel_variable_name}) {
-                $this->attributes[self::{constant_field_name}] = null;
-            } else {
-                $this->attributes[self::{constant_field_name}] = (int) ${camel_variable_name};
-            }'''
+            $this->attributes[self::{constant_field_name}] = null;
+        } else {
+            $this->attributes[self::{constant_field_name}] = (int) ${camel_variable_name};
+        }'''
         return '$this->attributes[self::{constant_field_name}] = ${camel_variable_name};'
 
     @staticmethod
@@ -188,32 +187,30 @@ class SchemaUtil:
         """
         if mysql_column_type == 'datetime':
             return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
-            if (empty($dateTimeStringValue)) {
-                return null;
-            }
-            $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d H:i:s\', $dateTimeStringValue);
-            return $dateTimeObject;'''
+        if (empty($dateTimeStringValue)) {
+            return null;
+        }
+        $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d H:i:s\', $dateTimeStringValue);
+        return $dateTimeObject;'''
         if mysql_column_type == 'date':
             return '''$dateTimeStringValue = $this->attributes[self::{constant_field_name}];
-            if (empty($dateTimeStringValue)) {
-                return null;
-            }
-            $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d\', $dateTimeStringValue);
-            return $dateTimeObject;'''
+        if (empty($dateTimeStringValue)) {
+            return null;
+        }
+        $dateTimeObject = \DateTime::createFromFormat(\'Y-m-d\', $dateTimeStringValue);
+        return $dateTimeObject;'''
         if php_property_type == 'float':
             return """$floatValue = $this->attributes[self::{constant_field_name}];
-            if (null === $floatValue) {
-                return null;
-            }
-    
-            return (float) $this->attributes[self::{constant_field_name}];"""
+        if (null === $floatValue) {
+            return null;
+        }
+        return (float) $this->attributes[self::{constant_field_name}];"""
         if php_property_type == 'int':
             return """$intValue = $this->attributes[self::{constant_field_name}];
-            if (null === $intValue) {
-                return null;
-            }
-    
-            return (int) $this->attributes[self::{constant_field_name}];"""
+        if (null === $intValue) {
+            return null;
+        }
+        return (int) $this->attributes[self::{constant_field_name}];"""
         return 'return $this->attributes[self::{constant_field_name}];'
 
 
