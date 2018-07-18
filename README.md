@@ -10,6 +10,7 @@ If you love ?
 - Backend by an **industrial framework** with your favorite language (PHP or Go)
 
 Then this powerful tool is the right choice for you.
+
 Currently rest-cli supports for Go and PHP with MySQL database.
 
 ### Prerequisite
@@ -17,12 +18,13 @@ Rest CLI
 - Docker
 - Python 2.7 with pip
 - Protobuf compiler
-For languages: First installation will require you pick your languages
-then creator will instruct you the prerequisite for each language.
+```
+First installation will require you pick your languages.
+then creator will guide you the prerequisite for each language.
+```
 
 ### Installation
 ```
-$ sudo apt-get install
 $ pip install rest-cli
 ```
 
