@@ -5,8 +5,8 @@
 If you love ?
 - Beautiful restful web service with **standard architecture**
 - The **fastest way** to get things done with less human coding
-- Automatically **synchronize changes** from component to documentation
-- **explicit request & response** with proved performance via Protocol Buffers
+- **Synchronize changes** from component to documentation
+- **Explicit request & response** with proved performance via Protobuf
 - Backend by an **industrial framework** with your favorite language (PHP or Go)
 
 Then this powerful tool is the right choice for you.
