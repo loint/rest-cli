@@ -1,7 +1,6 @@
 rm -rf user
 make && make install
 rest create user --mysql --quite --force --language=php
-exit
 cd user
 rest migrate
 rest sync
