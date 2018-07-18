@@ -1,0 +1,28 @@
+{
+    "name": "app",
+    "description": "Skeleton Service",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Author",
+            "email": "author@email.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Test\\": "test/"
+        }
+    },
+    "require": {
+        "loint/rest": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/loint/rest-cli/php/rest",
+            "no-api" : true
+        }
+    ]
+}

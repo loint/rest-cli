@@ -1,0 +1,9 @@
+# git rm --cached `git ls-files -i --exclude-from=.gitignore`
+.idea
+build
+dist
+rest_cli*
+*.pyc
+__pycache__
+.pytest_cache
+/user

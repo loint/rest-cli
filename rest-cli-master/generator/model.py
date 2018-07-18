@@ -1,14 +1,14 @@
 import os
 from helper import Helper
-from generator.template.php.template import MODEL_TEMPLATE, MODEL_CONSTRUCTOR_TEMPLATE, SETTER_GETTER_TEMPLATE
-from generator.template.php.template import REPOSITORY_IMPLEMENTATION_TEMPLATE
-from generator.template.php.template import SERVICE_IMPLEMENTATION_TEMPLATE
-from generator.template.php.template import REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE
-from generator.template.php.template import REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE
-from generator.template.php.template import REPOSITORY_INTERFACE_TEMPLATE
-from generator.template.php.template import SERVICE_INTERFACE_TEMPLATE
-from generator.template.php.template import REPOSITORY_INTERFACE_BUILTIN_TEMPLATE
-from generator.template.php.template import REPOSITORY_INTERFACE_FILTER_TEMPLATE
+from model_template import MODEL_TEMPLATE, MODEL_CONSTRUCTOR_TEMPLATE, SETTER_GETTER_TEMPLATE
+from model_template import REPOSITORY_IMPLEMENTATION_TEMPLATE
+from model_template import SERVICE_IMPLEMENTATION_TEMPLATE
+from model_template import REPOSITORY_IMPLEMENTATION_BUILTIN_TEMPLATE
+from model_template import REPOSITORY_IMPLEMENTATION_FILTER_TEMPLATE
+from model_template import REPOSITORY_INTERFACE_TEMPLATE
+from model_template import SERVICE_INTERFACE_TEMPLATE
+from model_template import REPOSITORY_INTERFACE_BUILTIN_TEMPLATE
+from model_template import REPOSITORY_INTERFACE_FILTER_TEMPLATE
 
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 

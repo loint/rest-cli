@@ -1,0 +1,26 @@
+{
+    "name": "loint/rest",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Loi Nguyen",
+            "email": "loinguyentrung@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Rest\\": "src/",
+            "RestTest\\": "test/",
+            "SOA\\": "gen/"
+        }
+    },
+    "require": {
+        "laravel/lumen-framework": "^5.6",
+        "phpunit/phpunit": "^7.2",
+        "doctrine/migrations": "^1.8",
+        "appzcoder/lumen-routes-list": "^1.0",
+        "mockery/mockery": "^1.1"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

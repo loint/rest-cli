@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from os import path, system, getcwd, remove
-from click import group, option, argument, CommandCollection, Choice
+from click import group, option, argument, CommandCollection
 from generator import *
 from urllib import urlretrieve
 import re
@@ -41,9 +41,8 @@ def create_cli():
 @option('--quite', is_flag=True, default=False)
 @option('--force', is_flag=True, default=False)
 @option('--mysql', is_flag=True, default=False)
-@option('--language', type=Choice(['php', 'go']))
 @argument('name')
-def create(name, quite, force, mysql, language):
+def create(name, quite, force, mysql):
     name_pattern = re.compile("^[a-z-]+$")
     if not name_pattern.match(name):
         print('Sorry ! Only lower case and hyphen are allowed . Please try again')
@@ -69,14 +68,6 @@ def create(name, quite, force, mysql, language):
         username = raw_input('Enter mysql user [root] :')
         password = raw_input('Enter mysql password [password] : ')
         database = raw_input('Enter mysql database [database] : ')
-
-    if language is None or len(language) == 0:
-        print('Sorry ! Please tell me your favorite language [php|go]')
-        exit(0)
-
-    if language not in ['php', 'go']:
-        print('Currently language ', language, ' is not supported')
-        exit(0)
 
     # Fill default value if user ignore them
     if len(host) == 0:
@@ -106,12 +97,11 @@ def create(name, quite, force, mysql, language):
     try:
         system('rm -rf user')
         system('rm -f app.zip')
-        system('rm -rf rest-cli-master')
-        urlretrieve('https://github.com/loint/rest-cli/archive/master.zip', 'app.zip')
+        system('rm -rf rest-skeleton-master')
+        urlretrieve('https://github.com/loint/rest-skeleton/archive/master.zip', 'app.zip')
         system('unzip app.zip')
         system('rm -f app.zip')
-        system('mv rest-cli-master/' + language +'/skeleton ' + name)
-        system('rm -rf rest-' + language + '-master')
+        system('mv rest-skeleton-master ' + name)
         rest_file = open(name + '/rest.json', 'w')
         rest_file.write(rest_content)
         rest_file.close()

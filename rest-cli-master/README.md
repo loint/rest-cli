@@ -3,25 +3,21 @@
 <img src="docs/rest.jpg" width=320 align=right>
 
 If you love ?
-- Beautiful restful web service with **standard architecture**
-- The **fastest way** to get things done with less human coding
-- Easy way to **synchronize everything** from components to documentation
-- Well tested **explicit request & response** with proved performance via protobuf
-- Powered by an **industrial framework** with your favorite language (PHP or Go)
+- Beautiful restful web service with **standard** architecture
+- The **fastest** way to get things done with less human coding
+- Easy way to **synchronize** from components to documentation
+- Well tested structure with **explicit** request & response
+- Powered by an **industrial** framework with outstanding performance
 
 Then this powerful tool is the right choice for you.
-Currently rest-cli supports for Go and PHP with MySQL database.
 
 ### Prerequisite
-Rest CLI
 - Docker
 - Python 2.7 with pip
-- Protobuf compiler
-For languages: First installation will require you pick your languages
-then creator will instruct you the prerequisite for each language.
+- PHP 7.2 with composer
 
 ### Installation
-$ sudo apt-get install
+```
 $ pip install rest-cli
 ```
 
@@ -32,16 +28,14 @@ $ pip install rest-cli
 - [x] Support built-in query annotations
 - [x] Compile api routes and generate controller with integration tests
 - [x] Serve and test application
-- [x] Generate swagger documentation base on api routes
-- [ ] Abstraction parser for independent with programming language
-- [ ] Integrate Request/Response with protocol buffers
+- [x] Generate swagger documentation base on api routes (in-progress)
+- [ ] Support response header & type casting for complex Request
 - [ ] Support Service - Repository symbolic link to comply top down architecture
 - [ ] Export service interfaces for inter-communication
 - [ ] Support RPC exception via response verification
 
 ### Usages
 1. Create web service application
-- --language : Available supported language are PHP and Golang
 - --quite : Quite mode without asking anything about configuration
 - --force : Force creating application without complaining about existing project
 - --mysql : Start a mysql container with default information
