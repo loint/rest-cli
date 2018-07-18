@@ -20,7 +20,7 @@
     },
     "repositories": [
         {
-            "type": "vcs",
+            "type": "path",
             "url": "https://github.com/loint/rest-cli/php/rest",
             "no-api" : true
         }

@@ -8,6 +8,7 @@ import re
 
 __author__ = "Loi Nguyen <loinguyentrung@gmail.com>"
 
+languages = ['php', 'go']
 
 def require_composer():
     if not path.isfile('./composer.json'):
@@ -74,7 +75,7 @@ def create(name, quite, force, mysql, language):
         print('Sorry ! Please tell me your favorite language [php|go]')
         exit(0)
 
-    if language not in ['php', 'go']:
+    if language not in languages:
         print('Currently language ', language, ' is not supported')
         exit(0)
 
@@ -111,7 +112,7 @@ def create(name, quite, force, mysql, language):
         system('unzip app.zip')
         system('rm -f app.zip')
         system('mv rest-cli-master/' + language +'/skeleton ' + name)
-        system('rm -rf rest-' + language + '-master')
+        system('rm -rf rest-cli-master')
         rest_file = open(name + '/rest.json', 'w')
         rest_file.write(rest_content)
         rest_file.close()
