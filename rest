@@ -111,7 +111,7 @@ def create(name, quite, force, mysql, language):
         urlretrieve('https://github.com/loint/rest-cli/archive/master.zip', 'app.zip')
         system('unzip app.zip')
         system('rm -f app.zip')
-        system('mv rest-cli-master/' + language +'/skeleton ' + name)
+        system('mv rest-cli-master/' + language + ' ' + name)
         system('rm -rf rest-cli-master')
         rest_file = open(name + '/rest.json', 'w')
         rest_file.write(rest_content)
@@ -220,7 +220,7 @@ def test():
     system('php ./vendor/phpunit/phpunit/phpunit --bootstrap src/Bootstrap.php -c phpunit.xml --testdox')
     if path.isfile(log_file):
         with open(log_file, 'r') as log_content:
-            print log_content.read()
+            print(log_content.read())
 
 
 @group()

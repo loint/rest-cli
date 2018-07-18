@@ -272,10 +272,10 @@ class ModelGenerator:
         Scan all models and collect existing code
         """
         if len(self._model_path) == 0:
-            print 'Please set_model_path !'
+            print('Please set_model_path !')
             exit(1)
         if len(self._identifier) == 0:
-            print 'Please set_identifier !'
+            print('Please set_identifier !')
             exit(1)
         if len(self._generated_model) > 0:
             self.scan_by_model_file_name(self._generated_model + '.php')
@@ -330,7 +330,7 @@ class ModelGenerator:
             lines = stream.read().strip()
             model_components = lines.split(self._identifier)
             if len(model_components) != 2:
-                print 'Identifier not found in model : ', model_name
+                print('Identifier not found in model : ', model_name)
                 exit(1)
             else:
                 model_content = model_components[0]
@@ -473,7 +473,7 @@ class ModelGenerator:
         model_name = SchemaUtil.convert_table_to_camel_name(table_name)
         model_name_with_space = ' '.join(Helper.split_camel_case(model_name))
         if model_name not in self._models:
-            print 'Detect new table ', table_name
+            print('Detect new table ', table_name)
             model_content = Helper.bind(MODEL_TEMPLATE, {
                 'model_name': model_name,
                 'table_name': table_name,
@@ -483,7 +483,7 @@ class ModelGenerator:
             model = open(model_file_path, 'w')
             model.write(model_content)
             model.close()
-            print 'Created new model ', model_name
+            print('Created new model ', model_name)
 
     def generate_models(self):
         """
@@ -499,7 +499,7 @@ class ModelGenerator:
         for model in self._models:
             table_name = Helper.camel_case_to_snake_case(model)
             if table_name not in self._tables:
-                print 'Table ', table_name, ' in database does not exist !'
+                print('Table ', table_name, ' in database does not exist !')
                 exit(1)
             content = self._models[model]['content']
             content += self._identifier + '\n    '
@@ -509,7 +509,7 @@ class ModelGenerator:
             model_file = open(self._models[model]['file_path'], "w")
             model_file.write(content)
             model_file.close()
-            print 'Generated model: ', model
+            print('Generated model: ', model)
 
     def scan_model_annotation(self):
         for model in self._models:
@@ -530,8 +530,8 @@ class ModelGenerator:
                         consistent = True
                         break
                 if not consistent:
-                    print 'Sorry, can not filter by column "' + model + '.' + filter_field \
-                          + '" because it does not exist in database !'
+                    print('Sorry, can not filter by column "' + model + '.' + filter_field \
+                          + '" because it does not exist in database !')
                     exit(1)
 
     @staticmethod
@@ -735,7 +735,7 @@ class ModelGenerator:
             lines = stream.read().strip()
             repository_components = lines.split(self._identifier)
             if len(repository_components) != 2:
-                print 'Identifier not found in repository implementation : ', repository_name
+                print('Identifier not found in repository implementation : ', repository_name)
                 exit(1)
             else:
                 # Concat existing repository source code with builtin methods
@@ -757,14 +757,14 @@ class ModelGenerator:
                 repository_file = open(repository_file_path, 'w')
                 repository_file.write(repository_content)
                 repository_file.close()
-                print 'Generated repository:', repository_name
+                print('Generated repository:', repository_name)
 
     def update_dependencies_to_bind(self, dependencies):
         with open(self._bind_path, 'r') as stream:
             lines = stream.read().strip()
             bind_components = lines.split(self._identifier)
             if len(bind_components) != 2:
-                print 'Identifier not found in dependency list'
+                print('Identifier not found in dependency list')
                 exit(1)
             else:
                 dependency_classes = ''
@@ -789,7 +789,7 @@ class ModelGenerator:
         for model in self._models:
             table_name = Helper.camel_case_to_snake_case(model)
             if table_name not in self._tables:
-                print 'Table ', table_name, ' in database does not exist !'
+                print('Table ', table_name, ' in database does not exist !')
                 exit(1)
             else:
                 repository_folder_path = self._repository_path
@@ -812,10 +812,10 @@ class ModelGenerator:
                     service_folder_path_each_model + '/' + service_name + '.php')
                 if not os.path.exists(repository_file_path):
                     self.create_repository_files(repository_folder_path_each_model, repository_name, model_name=model)
-                    print 'Generated repository: ', repository_name
+                    print('Generated repository: ', repository_name)
                 if not os.path.exists(service_file_path):
                     self.create_service_files(service_folder_path_each_model, service_name, model_name=model)
-                    print 'Generated service: ', service_name
+                    print('Generated service: ', service_name)
                 # Generate repository interfaces
                 self.generate_repository(
                     REPOSITORY_INTERFACE_BUILTIN_TEMPLATE,
