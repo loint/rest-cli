@@ -5,9 +5,9 @@
 If you love ?
 - Beautiful restful web service with **standard architecture**
 - The **fastest way** to get things done with less human coding
-- Easy way to **synchronize everything** from components to documentation
-- Well tested **explicit request & response** with proved performance via protobuf
-- Powered by an **industrial framework** with your favorite language (PHP or Go)
+- Automatically **synchronize changes** from component to documentation
+- **explicit request & response** with proved performance via Protocol Buffers
+- Backend by an **industrial framework** with your favorite language (PHP or Go)
 
 Then this powerful tool is the right choice for you.
 Currently rest-cli supports for Go and PHP with MySQL database.
@@ -21,6 +21,7 @@ For languages: First installation will require you pick your languages
 then creator will instruct you the prerequisite for each language.
 
 ### Installation
+```
 $ sudo apt-get install
 $ pip install rest-cli
 ```
