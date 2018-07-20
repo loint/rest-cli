@@ -1,0 +1,4 @@
+rm -rf src/Shared/IO
+rm -rf src/Controller
+rm -rf test/Controller
+rm -rf public/docs/api.json

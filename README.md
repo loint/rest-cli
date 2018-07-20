@@ -7,7 +7,7 @@ If you love ?
 - The **fastest way** to get things done with less human coding
 - **Synchronize changes** from component to documentation
 - **Explicit request & response** with proved performance via Protobuf
-- Backend by an **industrial framework** with your favorite language (PHP or Go)
+- Backend by an **industrial framework** wisth your favorite language (PHP or Go)
 
 Then this powerful tool is the right choice for you.
 
@@ -44,8 +44,8 @@ $ pip install rest-cli
 
 ### Usages
 1. Create web service application
-- --language : Available supported language are PHP and Golang
-- --quite : Quite mode without asking anything about configuration
+- --language : Available supported language are PHP and Go
+- --quiet : Quiet mode without asking anything about configuration
 - --force : Force creating application without complaining about existing project
 - --mysql : Start a mysql container with default information
 ```
